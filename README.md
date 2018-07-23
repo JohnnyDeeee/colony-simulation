@@ -18,10 +18,10 @@ non-starred = important<br>
         - [ ] Tile food (*)
             - [ ] Grow food over time (**)
 - [ ] AI
+    - [ ] Spawning  
     - [ ] Behaviour
         - [ ] Neural nets
             - [ ] Movement
             - [ ] Eating (*)
             - [ ] Mating (*)
                 - [ ] Genetic Algorithm (survival of the fittest)
-    - [ ] Spawning
