@@ -18,4 +18,5 @@ non-starred = important
             - Movement
             - Eating (*)
             - Mating (*)
+                - Genetic Algorithm (survival of the fittest)
     - Spawning
