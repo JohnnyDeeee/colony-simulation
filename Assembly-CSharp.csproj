@@ -54,9 +54,12 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\base.cs" />
+     <Compile Include="Assets\Scripts\grid.cs" />
+     <Compile Include="Assets\Scripts\resources_list.cs" />
      <Compile Include="Assets\Scripts\startup.cs" />
+     <Compile Include="Assets\Scripts\tile.cs" />
+     <Compile Include="Assets\Scripts\world.cs" />
      <Compile Include="Assets\Scripts\world_gen.cs" />
-     <None Include="Assets\Scripts\todo.txt" />
  <Reference Include="UnityEditor.StandardEvents">
  <HintPath>/home/johndoe/Unity/Projects/colony-simulation/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
  </Reference>

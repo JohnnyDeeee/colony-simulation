@@ -1,12 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
-[InitializeOnLoad]
 public class Startup {
 	// Main startup method. Called on startup due to [InitializeOnLoad]
-	static Startup() {
+	[RuntimeInitializeOnLoadMethod]
+	static void Start() {
 		WorldGenerator worldGen = new WorldGenerator("worldGen");
 		worldGen.Start();
 	}

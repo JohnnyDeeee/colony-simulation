@@ -1,10 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Base {
     // Class name, used in logging
-    protected string _name { get; set; }
+    protected string _name;
+
+    public string GetName() { return this._name; }
 
     public Base(string name){
         this._name = name;
