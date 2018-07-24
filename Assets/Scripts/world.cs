@@ -20,9 +20,10 @@ public class World : Base {
 
         // Set size
         // cam.orthographicSize = Screen.width / (((Screen.width / Screen.height) * 2) * (Screen.width / tileHeight));
-        cam.orthographicSize = sizeInUnits.y / 2;
+        float offset = 0f;
+        cam.orthographicSize = (sizeInUnits.y / 2) + (sizeInUnits.x / 5) + offset;
 
         // Set Position
-        cam.transform.SetPositionAndRotation(new Vector3((sizeInUnits.x / 2) - 0.5f, (sizeInUnits.y / 2) * -1, cam.transform.position.z), cam.transform.rotation);
+        cam.transform.SetPositionAndRotation(new Vector3((sizeInUnits.x / 2) - 0.5f, ((sizeInUnits.y / 2) -0.5f) * -1, cam.transform.position.z), cam.transform.rotation);
     }
 }
