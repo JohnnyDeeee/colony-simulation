@@ -3,40 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
-// Override unity's vector2 so we can enforce the use of INT
-public class Vector2 {
-    public int x;
-    public int y;
-
-    public Vector2(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    public Vector2(float x, float y) {
-        this.x = (int)x;
-        this.y = (int)y;
-    }
-}
-
-public static class TileDefinitions {
-    public const char TILE_GROUND = '-';
-    public const char TILE_WALL = 'x';
-
-    // Checks if a char is defined in our Tile definitions
-    public static bool IsDefintionValid(char definitionToTest) {
-        FieldInfo[] fields = typeof(TileDefinitions).GetFields(BindingFlags.Public | BindingFlags.Static);
-        foreach(FieldInfo field in fields) {
-            if(field.FieldType == typeof(char) && // Definitions are only chars
-            (char)field.GetValue(null) == definitionToTest) // Test if values match
-                return true;
-        }
-
-        return false;
-    }
-}
-
-public class Grid : Base {
+public class Grid {
     private Vector2 levelSize;
     private Vector2 tileScaleInUnits;
     private char[,] level;
@@ -61,7 +28,7 @@ public class Grid : Base {
     }
     public Vector2 GetTileScaleInUnits() { return this.tileScaleInUnits; }
 
-    public Grid(string name, char[,] level, Vector2 tileScale) : base(name) {
+    public Grid(char[,] level, Vector2 tileScale) {
         this.level = level;
         this.tileScaleInUnits = tileScale;
 
@@ -72,20 +39,15 @@ public class Grid : Base {
         this.tiles = new Tile[this.levelSize.x, this.levelSize.y];
         for(int x = 0; x < this.levelSize.x; x++) {
             for(int y = 0; y < this.levelSize.y; y++) {
-                GameObject tileObj = null;
+                Tile tile = null;
 
-                switch(this.level[x, y]){
-                    case TileDefinitions.TILE_WALL:
-                        tileObj = ResourcesList.TILE_WALL;
-                        break;
-                    case TileDefinitions.TILE_GROUND:
-                        tileObj = ResourcesList.TILE_GROUND;
-                        break;
-                    default:
-                        throw new Exception(String.Format("Tile type '{0}' not found", this.level[x, y]));
-                }
+                if(this.level[x, y] == TileDefinitions.TILE_WALL._char)
+                    tile = new TileWall(string.Format("tile_wall_{0}_{1}", x, y), this.tileScaleInUnits);
+                else if(this.level[x, y] == TileDefinitions.TILE_GROUND._char)
+                    tile = new TileGround(string.Format("tile_ground_{0}_{1}", x, y), this.tileScaleInUnits);
+                else
+                    throw new Exception(String.Format("Tile type '{0}' not found", this.level[x, y]));
 
-                Tile tile = new Tile(string.Format("tile_{0}_{1}", x, y), tileObj, this.tileScaleInUnits);
                 this.tiles[x, y] = tile;
             }
         }

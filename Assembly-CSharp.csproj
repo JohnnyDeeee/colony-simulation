@@ -53,11 +53,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\base.cs" />
+     <Compile Include="Assets\Scripts\coordination.cs" />
      <Compile Include="Assets\Scripts\grid.cs" />
      <Compile Include="Assets\Scripts\resources_list.cs" />
      <Compile Include="Assets\Scripts\startup.cs" />
      <Compile Include="Assets\Scripts\tile.cs" />
+     <Compile Include="Assets\Scripts\tile_definitions.cs" />
+     <Compile Include="Assets\Scripts\tile_ground.cs" />
+     <Compile Include="Assets\Scripts\tile_wall.cs" />
      <Compile Include="Assets\Scripts\world.cs" />
      <Compile Include="Assets\Scripts\world_gen.cs" />
  <Reference Include="UnityEditor.StandardEvents">

@@ -3,13 +3,15 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
-public class WorldGenerator : Base {
+public class WorldGenerator {
 
-	public WorldGenerator(string name) : base(name) {}
+	public WorldGenerator() {
+
+	}
 
 	// Use this for initialization
 	public void Start() {
-		this.Log("started!");
+		Debug.Log("started!");
 
 		char[,] level1 = this.StringToCharArray(
 			@"xxxxxxxxxxxxxxxxxxxx
@@ -58,7 +60,7 @@ public class WorldGenerator : Base {
 			  x---x
 			  xxxxx");
 
-		World world = new World("world1", level1);
+		World world = new World(level1);
 	}
 
 	// Converts a level string to a mutli dimensional char array

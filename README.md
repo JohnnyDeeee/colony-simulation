@@ -12,10 +12,16 @@ non-starred = important<br>
 
 - [ ] World generation
     - [ ] Tiles
-        - [ ] Tile base class
+        - [x] Tile base class
         - [ ] Tile ground
+            - [x] Prefab
+            - [ ] > Class
         - [ ] Tile wall
+            - [x] Prefab
+            - [ ] Class
         - [ ] Tile food (*)
+            - [ ] Prefab
+            - [ ] Class
             - [ ] Grow food over time (**)
 - [ ] AI
     - [ ] Spawning  
