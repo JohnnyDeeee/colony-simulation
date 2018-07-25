@@ -7,27 +7,31 @@ Created with Unity (for linux)
 
 non-starred = important<br>
 \*           = Important, but do non-starred first<br>
-**          = Not really important, but needs to be done eventually<br>
+**          = Not really important for now, but needs to be done eventually<br>
 ***         = Nice to have, not planned to make
 
 - [ ] World generation
     - [ ] Tiles
+        - [x] Move spawning of Tiles to the Tile class
         - [x] Tile base class
-        - [ ] Tile ground
+            - [x] List of AI(s) that are on that tile
+        - [x] Tile ground
             - [x] Prefab
-            - [ ] > Class
-        - [ ] Tile wall
+            - [x] Class
+        - [x] Tile wall
             - [x] Prefab
-            - [ ] Class
+            - [x] Class
         - [ ] Tile food (*)
             - [ ] Prefab
             - [ ] Class
             - [ ] Grow food over time (**)
 - [ ] AI
-    - [ ] Spawning  
+    - [x] Spawning (basic) 
     - [ ] Behaviour
-        - [ ] Neural nets
+        - [ ] Basic
             - [ ] Movement
-            - [ ] Eating (*)
-            - [ ] Mating (*)
-                - [ ] Genetic Algorithm (survival of the fittest)
+        - [ ] Advanced (Neural nets) (*)
+            - [ ] Movement (*)
+            - [ ] Eating (**)
+            - [ ] Mating (**)
+                - [ ] Genetic Algorithm (survival of the fittest) (**)

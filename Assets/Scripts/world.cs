@@ -3,11 +3,8 @@ using UnityEngine;
 public class World {
     private Grid grid;
 
-    public World(char[,] level, Vector2 tileScale = null) {
-        // Default tileScale to Vector2(1,1)
-        tileScale = tileScale == null ? new Vector2(1,1) : tileScale;
-
-        this.grid = new Grid(level, tileScale);
+    public World(char[,] level) {
+        this.grid = new Grid(level);
         this.grid.Render();
 
         this.SetupCamera(this.grid.GetSizeInUnits(), this.grid.GetTileSizeInPixels().x);
@@ -19,7 +16,6 @@ public class World {
         Debug.Log(string.Format("screen width: {0}, screen height: {1}, tile height: {2}", Screen.width, Screen.height, tileHeight));
 
         // Set size
-        // cam.orthographicSize = Screen.width / (((Screen.width / Screen.height) * 2) * (Screen.width / tileHeight));
         float offset = 0f;
         cam.orthographicSize = (sizeInUnits.y / 2) + (sizeInUnits.x / 5) + offset;
 

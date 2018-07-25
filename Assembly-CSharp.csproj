@@ -53,9 +53,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\ai.cs" />
+     <Compile Include="Assets\Scripts\ai_ant.cs" />
      <Compile Include="Assets\Scripts\coordination.cs" />
      <Compile Include="Assets\Scripts\grid.cs" />
      <Compile Include="Assets\Scripts\resources_list.cs" />
+     <Compile Include="Assets\Scripts\sprite_object.cs" />
      <Compile Include="Assets\Scripts\startup.cs" />
      <Compile Include="Assets\Scripts\tile.cs" />
      <Compile Include="Assets\Scripts\tile_definitions.cs" />
