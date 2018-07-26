@@ -53,19 +53,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\ai.cs" />
-     <Compile Include="Assets\Scripts\ai_ant.cs" />
-     <Compile Include="Assets\Scripts\coordination.cs" />
-     <Compile Include="Assets\Scripts\grid.cs" />
-     <Compile Include="Assets\Scripts\resources_list.cs" />
-     <Compile Include="Assets\Scripts\sprite_object.cs" />
-     <Compile Include="Assets\Scripts\startup.cs" />
-     <Compile Include="Assets\Scripts\tile.cs" />
-     <Compile Include="Assets\Scripts\tile_definitions.cs" />
-     <Compile Include="Assets\Scripts\tile_ground.cs" />
-     <Compile Include="Assets\Scripts\tile_wall.cs" />
-     <Compile Include="Assets\Scripts\world.cs" />
-     <Compile Include="Assets\Scripts\world_gen.cs" />
+     <Compile Include="Assets\Scripts\AI.cs" />
+     <Compile Include="Assets\Scripts\AIAnt.cs" />
+     <Compile Include="Assets\Scripts\Cam.cs" />
+     <Compile Include="Assets\Scripts\Coordination.cs" />
+     <Compile Include="Assets\Scripts\Grid.cs" />
+     <Compile Include="Assets\Scripts\ResourcesList.cs" />
+     <Compile Include="Assets\Scripts\SpriteObject.cs" />
+     <Compile Include="Assets\Scripts\Startup.cs" />
+     <Compile Include="Assets\Scripts\Tile.cs" />
+     <Compile Include="Assets\Scripts\TileDefinitions.cs" />
+     <Compile Include="Assets\Scripts\TileGround.cs" />
+     <Compile Include="Assets\Scripts\TileWall.cs" />
+     <Compile Include="Assets\Scripts\World.cs" />
+     <Compile Include="Assets\Scripts\WorldGenerator.cs" />
+     <None Include="Assets\Resources\Levels\level1.txt" />
  <Reference Include="UnityEditor.StandardEvents">
  <HintPath>/home/johndoe/Unity/Projects/colony-simulation/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
  </Reference>
