@@ -63,6 +63,7 @@
      <Compile Include="Assets\Scripts\Startup.cs" />
      <Compile Include="Assets\Scripts\Tile.cs" />
      <Compile Include="Assets\Scripts\TileDefinitions.cs" />
+     <Compile Include="Assets\Scripts\TileFood.cs" />
      <Compile Include="Assets\Scripts\TileGround.cs" />
      <Compile Include="Assets\Scripts\TileWall.cs" />
      <Compile Include="Assets\Scripts\World.cs" />

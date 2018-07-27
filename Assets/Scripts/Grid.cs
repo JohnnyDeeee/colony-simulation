@@ -5,8 +5,17 @@ using UnityEngine;
 
 public class Grid : MonoBehaviour {
     [SerializeField] private Vector2 levelSize;
+    [SerializeField] private float xOrg;
+    [SerializeField] private float yOrg;
+    [SerializeField] private float noiseScale;
+
     private char[,] level;
     private Tile[,] tiles;
+    private float foodThreshold;
+
+    public void Start() {
+
+    }
 
     public void Update() {
         if(World.GetSelectedAI())
@@ -18,31 +27,55 @@ public class Grid : MonoBehaviour {
     public void Init(char[,] level) {
         this.level = level;
 
+        this.noiseScale = 17.5f; // Number of perlinNoise cycles (Lower = less patches, Higher = more patches)
+        this.foodThreshold = 0.6f; // Lower = bigger food patches, Higher = smaller food patches (0f - 1f)
+
         // GetLength 0-1 because we only deal with 2 dimensions in this 2D simulation
         this.levelSize = new Vector2(this.level.GetLength(0), this.level.GetLength(1));
 
-        // Create the grid in memory
+        // Create noise map for spawning food patches
+        Color[] noisePixels = new Color[(int)this.levelSize.x * (int)this.levelSize.y];
+        float _y = 0.0f;
+        while(_y < this.levelSize.y) {
+            float _x = 0.0f;
+            while(_x < this.levelSize.x) {
+                float xCoord = this.xOrg + _x / this.levelSize.y * this.noiseScale;
+                float yCoord = this.yOrg + _y / this.levelSize.x * this.noiseScale;
+                float sample = Mathf.PerlinNoise(xCoord, yCoord);
+                noisePixels[(int)_y * (int)this.levelSize.y + (int)_x] = new Color(sample, sample, sample);
+                _x++;
+            }
+            _y++;
+        }
+
+        // Create the tiles
         this.tiles = new Tile[(int)this.levelSize.x, (int)this.levelSize.y];
         for(int x = 0; x < this.levelSize.x; x++) {
             for(int y = 0; y < this.levelSize.y; y++) {
-                Tile tile = null;
+                TileDefinition tileDefinition;
 
-                if(this.level[x, y] == TileDefinitions.TILE_WALL._char) {
-                    GameObject tileInstance = GameObject.Instantiate(ResourcesList.TILE_WALL, new Vector3(x, y, 0), Quaternion.identity);
-                    tileInstance.name = "tile_wall";
-                    tile = tileInstance.GetComponent<Tile>();
-                } else if(this.level[x, y] == TileDefinitions.TILE_GROUND._char) {
-                    GameObject tileInstance = GameObject.Instantiate(ResourcesList.TILE_GROUND, new Vector3(x, y, 0), Quaternion.identity);
-                    tileInstance.name = "tile_ground";
-                    tile = tileInstance.GetComponent<Tile>();
-                } else
+                if(this.level[x, y] == TileDefinitions.TILE_WALL._char) { // Wall tile
+                    tileDefinition = TileDefinitions.TILE_WALL;
+                } else if(this.level[x, y] == TileDefinitions.TILE_GROUND._char) { // Food / Ground
+                    Color color = noisePixels[x + (y * (int)this.levelSize.x)];
+                    if(color.grayscale >= this.foodThreshold) {
+                        tileDefinition = TileDefinitions.TILE_FOOD;
+                        tileDefinition.prefab.GetComponent<TileFood>().foodAmount = color.grayscale;
+                    } else
+                        tileDefinition = TileDefinitions.TILE_GROUND;
+                } else // Unknown tile type
                     throw new Exception(String.Format("Tile type '{0}' not found", this.level[x, y]));
 
+                GameObject tileInstance = GameObject.Instantiate(tileDefinition.prefab, new Vector3(x, y, 0), Quaternion.identity);
+                tileInstance.name = tileDefinition.prefab.name;
+                tileInstance.GetComponent<SpriteRenderer>().color = tileDefinition.color;
+
+                Tile tile = tileInstance.GetComponent<Tile>();
                 this.tiles[x, y] = tile;
                 tile.SetParent(this.gameObject);
             }
         }
-
+        
         // Create AI
         int spawnSize = 100;
         for(int i = 0; i < spawnSize; i++) {
