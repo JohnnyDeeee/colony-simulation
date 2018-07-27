@@ -7,10 +7,19 @@ public class Tile : SpriteObject {
     [SerializeField] protected List<AI> aiList = new List<AI>(); // ai's that are currently on this tile
 
     public void AddAI(AI ai) {
-        if(this.canSpawnAi)
-            this.aiList.Add(ai);
-        else
-            throw new Exception("This tile can not spawn ai(s)");
+        this.aiList.Add(ai);
+    }
+
+    public void OnTriggerEnter2D(Collider2D collider) {
+        AI colliderAI = collider.gameObject.GetComponent<AI>();
+        if(colliderAI)
+            this.AddAI(colliderAI);
+    }
+
+    public void OnTriggerExit2D(Collider2D collider) {
+        AI colliderAI = collider.gameObject.GetComponent<AI>();
+        if(colliderAI)
+            this.aiList.Remove(colliderAI);
     }
 
     public bool CanSpawnAi() { return this.canSpawnAi; }

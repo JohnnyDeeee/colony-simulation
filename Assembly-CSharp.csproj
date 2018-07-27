@@ -56,8 +56,8 @@
      <Compile Include="Assets\Scripts\AI.cs" />
      <Compile Include="Assets\Scripts\AIAnt.cs" />
      <Compile Include="Assets\Scripts\Cam.cs" />
-     <Compile Include="Assets\Scripts\Coordination.cs" />
      <Compile Include="Assets\Scripts\Grid.cs" />
+     <Compile Include="Assets\Scripts\NeuralNetwork.cs" />
      <Compile Include="Assets\Scripts\ResourcesList.cs" />
      <Compile Include="Assets\Scripts\SpriteObject.cs" />
      <Compile Include="Assets\Scripts\Startup.cs" />

@@ -36,11 +36,11 @@ non-starred = important<br>
     - [x] Spawning (basic) 
     - [ ] Behaviour
         - [ ] Basic
-            - [ ] Movement
-        - [ ] Advanced (Neural nets) (*)
-            - [ ] Movement (*)
-                - [ ] Inputs should be what AI sees (multiple senses that register RGB?)
-                - [ ] 2 Outputs that are angles to which the AI steers (so always moving forwards)
+            - [x] Movement (constant velocity forward)
             - [ ] Eating (**)
             - [ ] Mating (**)
                 - [ ] Genetic Algorithm (survival of the fittest) (**)
+        - [ ] > Advanced (Neural nets) (*)
+            - [ ] Movement (*)
+                - [ ] Inputs should be what AI sees (multiple senses that register RGB?)
+                - [x] 1 Output, used to rotate the AI

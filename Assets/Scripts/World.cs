@@ -29,7 +29,7 @@ public static class World {
         SetupCamera(grid.GetSizeInUnits(), grid.GetTileSizeInPixels().x);
     }
 
-    private static void SetupCamera(Vector2 sizeInUnits, int tileHeight) {
+    private static void SetupCamera(Vector2 sizeInUnits, float tileHeight) {
         Camera cam = Camera.main;
         
         Debug.Log(string.Format("screen width: {0}, screen height: {1}, tile height: {2}", Screen.width, Screen.height, tileHeight));

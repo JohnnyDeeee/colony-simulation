@@ -22,7 +22,7 @@ public class Grid : MonoBehaviour {
         this.levelSize = new Vector2(this.level.GetLength(0), this.level.GetLength(1));
 
         // Create the grid in memory
-        this.tiles = new Tile[this.levelSize.x, this.levelSize.y];
+        this.tiles = new Tile[(int)this.levelSize.x, (int)this.levelSize.y];
         for(int x = 0; x < this.levelSize.x; x++) {
             for(int y = 0; y < this.levelSize.y; y++) {
                 Tile tile = null;
@@ -46,9 +46,9 @@ public class Grid : MonoBehaviour {
         // Create AI
         int spawnSize = 100;
         for(int i = 0; i < spawnSize; i++) {
-            int randX = UnityEngine.Random.Range(0, this.levelSize.x);
-            int randY = UnityEngine.Random.Range(0, this.levelSize.y);
-            Tile randTile = this.GetTile(randX, randY);
+            float randX = UnityEngine.Random.Range(0f, this.levelSize.x);
+            float randY = UnityEngine.Random.Range(0f, this.levelSize.y);
+            Tile randTile = this.GetTile((int)randX, (int)randY);
 
             if(!randTile.CanSpawnAi()){
                 i--;
@@ -57,9 +57,6 @@ public class Grid : MonoBehaviour {
 
             GameObject aiInstance = GameObject.Instantiate(ResourcesList.AI_ANT, randTile.transform.position, Quaternion.identity);
             aiInstance.name = "ai_ant";
-            AI ai = aiInstance.GetComponent<AI>();
-            ai.SetParent(randTile.gameObject);
-            randTile.AddAI(ai);
         }
     }
 
@@ -70,7 +67,7 @@ public class Grid : MonoBehaviour {
             for (int y = this.tiles.GetLowerBound(1); y <= this.tiles.GetUpperBound(1); y++)
                 if(this.tiles[x, y] == tile)
                     return new Vector2(x, y);
-        return null;
+        return Vector2.negativeInfinity;
     }
 
     public Tile[,] GetTiles() { return this.tiles; }

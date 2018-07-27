@@ -27,7 +27,7 @@ public class WorldGenerator {
 		Vector2 dimensions = new Vector2(dimensionX, dimensionY);
 		
 		// Create charArray
-		char[,] charArray = new char[dimensions.x, dimensions.y];
+		char[,] charArray = new char[(int)dimensions.x, (int)dimensions.y];
 		int x = 0;
 		int y = 0;
 		foreach(char _char in _string) {

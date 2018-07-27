@@ -58,8 +58,6 @@ public class Cam : MonoBehaviour {
         // Zoom camera
         this.currentZoom = Mathf.Clamp(newZoom, minZoom, maxZoom);
         this.camera.orthographicSize = this.currentZoom;
-
-        Debug.Log("Zoomed!");
     }
 
     public void FollowObject(GameObject _object) {
