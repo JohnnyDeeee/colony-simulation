@@ -10,7 +10,7 @@ non-starred = important<br>
 **          = Not really important for now, but needs to be done eventually<br>
 ***         = Nice to have, not planned to make
 
-- [ ] World generation
+- World generation
     - [ ] Tiles
         - [x] Convert tile classes to MonoBehaviour scripts and use Unity as it should be used
         - [x] Move spawning of Tiles to the Tile class
@@ -22,17 +22,19 @@ non-starred = important<br>
         - [x] Tile wall
             - [x] Prefab
             - [x] Class
-        - [ ] Tile food (*)
-            - [ ] Prefab
-            - [ ] Class
+        - [x] Tile food (*)
+            - [x] Prefab
+            - [x] Class
+            - [x] Food color represents how much food the tile has
             - [ ] Grow food over time (**)
-- [x] Camera
+        - [x] Generate food in patches
+- Camera
     - [x] Move camera with right mouse button
     - [x] Zoom in/out with scrolling
     - [x] Follow an AI by clicking on it
         - [x] Unfollow by clicking on it again
         - [x] Zoom towards cliked AI
-- [ ] AI
+- AI
     - [x] Spawning (basic) 
     - [ ] Behaviour
         - [ ] Basic
