@@ -21,31 +21,40 @@ public class AI : SpriteObject {
     }
 
     public void Update() {
+        this.vision = null; // Reset the vision
+
         // Cast rays (the "eyes" part of the AI)
-        RaycastHit2D hit = Physics2D.Raycast(this.transform.position, this.transform.up, this.maxSeeDistance);
+        RaycastHit2D[] hits = Physics2D.RaycastAll(this.transform.position, this.transform.up, this.maxSeeDistance);
         Debug.DrawRay(this.transform.position, this.transform.up * this.maxSeeDistance, Color.red, 0);
-        if(hit.collider) {
-            // TODO: Get RGB from tile sprite
+        if(hits.Length > 0) {
+            foreach(RaycastHit2D hit in hits) {
+                Collider2D collider = hit.collider;
+
+                // Ignore ground tiles and (if AI) itself
+                if(collider.GetComponent<TileGround>() || (collider.GetComponent<AI>() && collider.GetComponent<AI>() == this))
+                    continue;
+                
+                // Get RGB from colliding tile sprite
+                SpriteRenderer sr = hit.collider.GetComponent<SpriteRenderer>();
+                this.vision = new double[3] {sr.color.r, sr.color.g, sr.color.b};
+
+                // Draw a ray towards what we are seeing
+                Debug.DrawRay(this.transform.position, collider.transform.position - this.transform.position, Color.blue, 0);
+
+                break; // Break after first contact
+            }
         }
 
-        // TODO: Get these from actual vision (rays)
-        // Ant example inputs
-        this.vision = new double[6];
-        // Left eye
-        vision[0] = Random.Range(0, 255); // R
-        vision[1] = Random.Range(0, 255); // G
-        vision[2] = Random.Range(0, 255); // B
-        // Right eye
-        vision[3] = Random.Range(0, 255); // R
-        vision[4] = Random.Range(0, 255); // G
-        vision[5] = Random.Range(0, 255); // B
+        // Let the "brain" do its thing, if we see something
+        if(this.vision != null)
+            this.rotationSpeed = (float)this.network.FeedForward(vision)[0] * 10;
 
-        this.rotationSpeed = (float)this.network.FeedForward(vision)[0];
-        
+        // Move according to the output of the "brain"
         Rigidbody2D rigidBody = this.GetComponent<Rigidbody2D>();
         this.rotation = (rigidBody.rotation + (this.rotationSpeed));
-
         rigidBody.MoveRotation(rotation);
+
+        // Constant movement forward
         rigidBody.velocity = (this.transform.rotation * Vector2.up) * this.speed;
     }
 

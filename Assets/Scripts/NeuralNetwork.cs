@@ -77,8 +77,12 @@ public class NeuralNetwork {
     private double[] MinMaxNormalization(double[] input) {
         double[] normalizedInput = new double[input.Length];
         
-        for(int i = 0; i < input.Length; i++)
-            normalizedInput[i] = (input[i] - input.Min()) / (input.Max() - input.Min());
+        for(int i = 0; i < input.Length; i++) {
+            double normalizedValue = (input[i] - input.Min()) / (input.Max() - input.Min());
+            normalizedValue = Double.IsNaN(normalizedValue) ? 0 : normalizedValue; // Convert NaN into 0
+
+            normalizedInput[i] = normalizedValue;
+        }
 
         return normalizedInput;
     }
