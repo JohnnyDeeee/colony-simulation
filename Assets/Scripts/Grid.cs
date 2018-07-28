@@ -8,14 +8,11 @@ public class Grid : MonoBehaviour {
     [SerializeField] private float xOrg;
     [SerializeField] private float yOrg;
     [SerializeField] private float noiseScale;
+    [SerializeField] private float noiseSmoothness;
 
     private char[,] level;
     private Tile[,] tiles;
     private float foodThreshold;
-
-    public void Start() {
-
-    }
 
     public void Update() {
         if(World.GetSelectedAI())
@@ -27,8 +24,9 @@ public class Grid : MonoBehaviour {
     public void Init(char[,] level) {
         this.level = level;
 
-        this.noiseScale = 17.5f; // Number of perlinNoise cycles (Lower = less patches, Higher = more patches)
-        this.foodThreshold = 0.6f; // Lower = bigger food patches, Higher = smaller food patches (0f - 1f)
+        this.noiseScale = 10f; // Number of perlinNoise cycles (Lower = less patches, Higher = more patches)
+        this.foodThreshold = 0.65f; // Lower = bigger food patches, Higher = smaller food patches (0f - 1f)
+        this.noiseSmoothness = 8f; // Lower = less smooth food transitions, Higher = smoother transitions (0f - ~100f)
 
         // GetLength 0-1 because we only deal with 2 dimensions in this 2D simulation
         this.levelSize = new Vector2(this.level.GetLength(0), this.level.GetLength(1));
@@ -42,6 +40,7 @@ public class Grid : MonoBehaviour {
                 float xCoord = this.xOrg + _x / this.levelSize.y * this.noiseScale;
                 float yCoord = this.yOrg + _y / this.levelSize.x * this.noiseScale;
                 float sample = Mathf.PerlinNoise(xCoord, yCoord);
+                sample = Mathf.Round(sample * this.noiseSmoothness) / this.noiseSmoothness; // Round of the sample to make it more/less smoother
                 noisePixels[(int)_y * (int)this.levelSize.y + (int)_x] = new Color(sample, sample, sample);
                 _x++;
             }
