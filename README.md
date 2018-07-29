@@ -36,6 +36,8 @@ non-starred = important<br>
         - [x] Zoom towards cliked AI
 - AI
     - [x] Spawning (basic) 
+    - [ ] Decay dead bodies over time
+        - [ ] Maybe ai can decide to go carnivore and eat the dead bodies?
     - [ ] Behaviour
         - [ ] Basic
             - [x] Movement (constant velocity forward)
