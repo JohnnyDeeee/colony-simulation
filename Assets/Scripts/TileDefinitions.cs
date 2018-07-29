@@ -11,6 +11,14 @@ public struct TileDefinition {
         this.prefab = prefab;
         this.color = color;
     }
+
+    public GameObject Instantiate(Vector2 position) {
+        GameObject tileInstance = GameObject.Instantiate(this.prefab, new Vector3(position.x, position.y, 0), Quaternion.identity);
+        tileInstance.name = this.prefab.name;
+        tileInstance.GetComponent<SpriteRenderer>().color = this.color;
+
+        return tileInstance;
+    }
 }
 
 public static class TileDefinitions {

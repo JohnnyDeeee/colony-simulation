@@ -1,9 +1,13 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class AI : SpriteObject {
     private bool selected;
     private Color originalColor;
-    private NeuralNetwork network;
+    protected NeuralNetwork network;
+    protected List<double> networkInput = new List<double>();
+    protected double[] networkOutput;
     [SerializeField] private Color selectedColor = Color.red;
     [SerializeField] private float rotationMultiplier;
     [SerializeField] private float movementMultiplier;
@@ -21,16 +25,17 @@ public class AI : SpriteObject {
         this.movementMultiplier = 5f;
         this.maxSeeDistance = 10f;
 
-        int inputLayerSize = 3; // 1 eye can see RGB
-        this.network = new NeuralNetwork(inputLayerSize, 3, 2); // output: rotation, velocity
+        int inputLayerSize = 3; // Vision in RGB (3)
+        int outputLayerSize = 2; // Rotation, velocity
+        this.network = new NeuralNetwork(inputLayerSize, 3, outputLayerSize);
 
         this.nextVelocity = Vector2.zero;
         this.nextRotation = 0f;
+
+        this.vision = new double[3];
     }
 
     public void Update() {
-        this.vision = null; // Reset the vision
-
         // Cast rays (the "eyes" part of the AI)
         RaycastHit2D[] hits = Physics2D.RaycastAll(this.transform.position, this.transform.up, this.maxSeeDistance);
         Debug.DrawRay(this.transform.position, this.transform.up * this.maxSeeDistance, Color.red, 0);
@@ -58,19 +63,22 @@ public class AI : SpriteObject {
 
         Rigidbody2D rigidBody = this.GetComponent<Rigidbody2D>();
 
-        // Let the "brain" do its thing, if we see something
+        // Let the "brain" do its thing with the given inputs
         if(this.vision != null) {
-            double[] output = this.network.FeedForward(vision);
-            float rotation = (float)output[0] * this.rotationMultiplier;
-            float velocity = (float)output[1] * this.movementMultiplier;
-
+            this.vision.ToList().ForEach(x => { this.networkInput.Add(x); }); // Add vision to the input array
+            this.networkOutput = this.network.FeedForward(this.networkInput.ToArray()); // Brain calculating
+            float rotation = (float)this.networkOutput[0] * this.rotationMultiplier;
+            float velocity = (float)this.networkOutput[1] * this.movementMultiplier;
             this.nextRotation = (rotation + rigidBody.rotation);
             this.nextVelocity = new Vector2(velocity, velocity);
         }
 
         // Move according to the output of the "brain"
         rigidBody.MoveRotation(this.nextRotation);
-        rigidBody.velocity = (this.transform.rotation * Vector2.up) * this.nextVelocity;
+        rigidBody.velocity = (this.transform.rotation * Vector2.up) * this.nextVelocity;  
+
+        this.vision = null; // Reset the vision
+        this.networkInput = new List<double>(); // Reset network input      
     }
 
     public void OnMouseDown() {

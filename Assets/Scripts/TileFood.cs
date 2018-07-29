@@ -8,10 +8,12 @@ public class TileFood : Tile {
     }
 
     public void Update() {
+        if(this.foodAmount <= 0f) {
+            TileDefinitions.TILE_GROUND.Instantiate(this.transform.position);
+            GameObject.Destroy(this.gameObject);
+        }
+
         SpriteRenderer renderer = this.GetComponent<SpriteRenderer>();
-        // renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, foodAmount);
-        
-        // renderer.color = Color.Lerp(new Color(134, 102, 1), renderer.color, foodAmount);
         renderer.color = Color.Lerp(TileDefinitions.TILE_GROUND.color, TileDefinitions.TILE_FOOD.color, foodAmount);
     }
 }

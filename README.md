@@ -42,7 +42,7 @@ non-starred = important<br>
             - [ ] > Eating (**)
             - [ ] Mating (**)
                 - [ ] Genetic Algorithm (survival of the fittest) (**)
-        - [x] > Advanced (Neural nets) (*)
+        - [x] Advanced (Neural nets) (*)
             - [x] Movement (*)
                 - [x] Inputs should be what AI sees (multiple senses that register RGB?)
                 - [x] 1 Output, used to rotate the AI

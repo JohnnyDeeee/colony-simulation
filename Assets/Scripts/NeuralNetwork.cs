@@ -41,6 +41,9 @@ public class NeuralNetwork {
     }
 
     public double[] FeedForward(double[] inputs) {
+        if(inputs.Length != this.inputLayerSize)
+            throw new Exception(string.Format("input size ({0}) does not match required size ({1})", inputs.Length, this.inputLayerSize));
+
         // Normalize input
         double[] normalizedInput = this.MinMaxNormalization(inputs);
 
@@ -86,4 +89,8 @@ public class NeuralNetwork {
 
         return normalizedInput;
     }
+
+    public int GetInputLayerSize() { return this.inputLayerSize; }
+    public int GetHiddenLayerSize() { return this.hiddenLayerSize; }
+    public int GetOutputLayerSize() { return this.outputLayerSize; }
 }

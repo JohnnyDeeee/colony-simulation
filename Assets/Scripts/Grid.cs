@@ -65,9 +65,7 @@ public class Grid : MonoBehaviour {
                 } else // Unknown tile type
                     throw new Exception(String.Format("Tile type '{0}' not found", this.level[x, y]));
 
-                GameObject tileInstance = GameObject.Instantiate(tileDefinition.prefab, new Vector3(x, y, 0), Quaternion.identity);
-                tileInstance.name = tileDefinition.prefab.name;
-                tileInstance.GetComponent<SpriteRenderer>().color = tileDefinition.color;
+                GameObject tileInstance = tileDefinition.Instantiate(new Vector2(x, y));
 
                 Tile tile = tileInstance.GetComponent<Tile>();
                 this.tiles[x, y] = tile;
