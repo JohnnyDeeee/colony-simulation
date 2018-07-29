@@ -41,6 +41,9 @@ public class AIAnt : AI {
     }
 
     public void LateUpdate() {
+        if(this.dead)
+            return;
+
         // Lose food depending on how much you have travelled in the last frame (and the multiplier)
         Rigidbody2D rigidBody = this.GetComponent<Rigidbody2D>();
         float distanceTravelledInLastFrame = Vector2.Distance(rigidBody.position, rigidBody.position + rigidBody.velocity);
@@ -49,6 +52,9 @@ public class AIAnt : AI {
     }
 
     public void OnTriggerStay2D(Collider2D collider) {
+        if(this.dead)
+            return;
+
         TileFood foodTile = collider.GetComponent<TileFood>();
         if(foodTile) { // Eat food from food tile when colliding with it
             if(Random.value > this.nextEatProbabillity)
@@ -72,5 +78,6 @@ public class AIAnt : AI {
         Rigidbody2D rigidBody = this.GetComponent<Rigidbody2D>();
         rigidBody.velocity = Vector2.zero;
         rigidBody.freezeRotation = true;
+        rigidBody.simulated = false;
     }
 }
