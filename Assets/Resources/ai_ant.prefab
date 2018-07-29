@@ -20,9 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4545164837823090}
   - component: {fileID: 212268253765288504}
-  - component: {fileID: 114266958367255364}
   - component: {fileID: 58783453805869592}
   - component: {fileID: 50401743949281922}
+  - component: {fileID: 114266958367255364}
   m_Layer: 0
   m_Name: ai_ant
   m_TagString: Untagged
@@ -90,11 +90,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedColor: {r: 1, g: 0, b: 0, a: 1}
-  speed: 1
-  rotation: 0
-  rotationSpeed: 0
+  rotationMultiplier: 0
+  movementMultiplier: 0
+  nextRotation: 0
+  nextVelocity: {x: 0, y: 0}
   maxSeeDistance: 0
   vision: []
+  visionColor: {r: 0, g: 0, b: 0, a: 0}
+  foodAmount: 0
+  maxFoodAmount: 0
+  dead: 0
+  nextEatProbabillity: 0
+  foodDepletionMultiplier: 0
+  distanceTravelled: 0
 --- !u!212 &212268253765288504
 SpriteRenderer:
   m_ObjectHideFlags: 1

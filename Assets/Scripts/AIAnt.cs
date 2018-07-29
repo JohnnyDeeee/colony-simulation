@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class AIAnt : AI {
     [SerializeField] private float foodAmount;
+    [SerializeField] private float maxFoodAmount;
     [SerializeField] private bool dead;
     [SerializeField] private float nextEatProbabillity;
     [SerializeField] private float foodDepletionMultiplier;
@@ -16,16 +17,20 @@ public class AIAnt : AI {
             this.network.GetHiddenLayerSize(),
             this.network.GetOutputLayerSize() + 1); // Add foodAmount as an input, add extra output for nextEatProbabillity
         this.foodDepletionMultiplier = 1f;
-        this.foodAmount = 1.0f; // 100%
+        this.maxFoodAmount = 1.0f; // 100%
+        this.foodAmount = this.maxFoodAmount;
 
         this.GetComponent<Rigidbody2D>().rotation = Random.Range(-180, 180+1);
     }
 
     public new void Update() {
-        if(this.foodAmount <= 0)
-            this.Die();
         if(this.dead)
             return;
+
+        if(this.foodAmount <= 0) {
+            this.Die();
+            return;
+        }
 
         // Add foodAmount as an input
         this.networkInput.Add(this.foodAmount);
@@ -43,18 +48,21 @@ public class AIAnt : AI {
         this.distanceTravelled += distanceTravelledInLastFrame;
     }
 
-    public void OnTriggerEnter2D(Collider2D collider) {
+    public void OnTriggerStay2D(Collider2D collider) {
         TileFood foodTile = collider.GetComponent<TileFood>();
-        if(foodTile) {
+        if(foodTile) { // Eat food from food tile when colliding with it
             if(Random.value > this.nextEatProbabillity)
                 this.EatFoodFromTile(foodTile);
         }
     }
 
     private void EatFoodFromTile(TileFood tile) {
-        if(tile.foodAmount > 0 && this.foodAmount < 1.0f) {
-            tile.foodAmount -= 0.1f;
-            this.foodAmount += 0.1f;
+        // Take food from food tile
+        if(tile.foodAmount > 0 && this.foodAmount < this.maxFoodAmount) {
+            // Eat 0.1f or the amount to get to maxFoodAmount (if the second is less than 0.1f ofcourse)
+            float amountToEat = this.maxFoodAmount - this.foodAmount >= 0.1f ? 0.1f : this.maxFoodAmount - this.foodAmount;
+            tile.foodAmount -= amountToEat;
+            this.foodAmount += amountToEat;
         }
     }
 

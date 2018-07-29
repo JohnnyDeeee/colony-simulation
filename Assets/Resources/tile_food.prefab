@@ -20,8 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4236485837049182}
   - component: {fileID: 212963528679102618}
-  - component: {fileID: 114896678735483548}
   - component: {fileID: 61465383237631166}
+  - component: {fileID: 114896678735483548}
   m_Layer: 0
   m_Name: tile_food
   m_TagString: Untagged
@@ -80,7 +80,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canSpawnAi: 1
   aiList: []
-  foodAmount: 0.6272479
+  foodAmount: 0.75
 --- !u!212 &212963528679102618
 SpriteRenderer:
   m_ObjectHideFlags: 1
