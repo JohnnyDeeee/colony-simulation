@@ -5,13 +5,14 @@ public class AI : SpriteObject {
     private Color originalColor;
     private NeuralNetwork network;
     [SerializeField] private Color selectedColor = Color.red;
-    [SerializeField] private float rotationSpeed;
-    [SerializeField] private float movementSpeed;
     [SerializeField] private float rotationMultiplier;
     [SerializeField] private float movementMultiplier;
+    [SerializeField] private float nextRotation;
+    [SerializeField] private Vector2 nextVelocity;
     [SerializeField] private float maxSeeDistance;
     [SerializeField] private double[] vision;
 
+    // DEBUG
     [SerializeField] private Color visionColor;
 
     public void Start() {
@@ -20,10 +21,11 @@ public class AI : SpriteObject {
         this.movementMultiplier = 5f;
         this.maxSeeDistance = 10f;
 
-        this.movementSpeed = 1.0f; // Initial speed, otherwise if the ai doesn't see anything, it wont move..
-
         int inputLayerSize = 3; // 1 eye can see RGB
-        this.network = new NeuralNetwork(inputLayerSize, 3, 2); // output: rotationSpeed, velocity
+        this.network = new NeuralNetwork(inputLayerSize, 3, 2); // output: rotation, velocity
+
+        this.nextVelocity = Vector2.zero;
+        this.nextRotation = 0f;
     }
 
     public void Update() {
@@ -54,18 +56,21 @@ public class AI : SpriteObject {
             }
         }
 
+        Rigidbody2D rigidBody = this.GetComponent<Rigidbody2D>();
+
         // Let the "brain" do its thing, if we see something
         if(this.vision != null) {
             double[] output = this.network.FeedForward(vision);
-            this.rotationSpeed = (float)output[0] * this.rotationMultiplier;
-            this.movementSpeed = (float)output[1] * this.movementMultiplier;
+            float rotation = (float)output[0] * this.rotationMultiplier;
+            float velocity = (float)output[1] * this.movementMultiplier;
+
+            this.nextRotation = (rotation + rigidBody.rotation);
+            this.nextVelocity = new Vector2(velocity, velocity);
         }
 
         // Move according to the output of the "brain"
-        Rigidbody2D rigidBody = this.GetComponent<Rigidbody2D>();
-        float rotation = (rigidBody.rotation + (this.rotationSpeed));
-        rigidBody.MoveRotation(rotation);
-        rigidBody.velocity = (this.transform.rotation * Vector2.up) * this.movementSpeed;
+        rigidBody.MoveRotation(this.nextRotation);
+        rigidBody.velocity = (this.transform.rotation * Vector2.up) * this.nextVelocity;
     }
 
     public void OnMouseDown() {
