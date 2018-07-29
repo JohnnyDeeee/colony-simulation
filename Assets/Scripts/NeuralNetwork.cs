@@ -93,4 +93,5 @@ public class NeuralNetwork {
     public int GetInputLayerSize() { return this.inputLayerSize; }
     public int GetHiddenLayerSize() { return this.hiddenLayerSize; }
     public int GetOutputLayerSize() { return this.outputLayerSize; }
+    public double[] GetInputWeights() { return this.inputWeights; }
 }

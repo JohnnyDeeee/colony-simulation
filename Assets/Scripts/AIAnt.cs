@@ -8,6 +8,7 @@ public class AIAnt : AI {
     [SerializeField] private float nextEatProbabillity;
     [SerializeField] private float foodDepletionMultiplier;
     [SerializeField] private float distanceTravelled;
+    [SerializeField] private Color color;
 
     public new void Start() {
         base.Start();
@@ -38,6 +39,17 @@ public class AIAnt : AI {
         base.Update();
 
         this.nextEatProbabillity = (float)this.networkOutput[2]; // First 2 are used in base class
+
+        // Translate the network weights to a color
+        // idea here is to be able to see if ants have a brain that looks alike
+        // TODO: Check what happens to kids when we implement mating
+        double weightsAvg = this.network.GetInputWeights().Average();
+
+        float colorValue = Mathf.Abs(0.5f * (float)weightsAvg);
+        colorValue = Mathf.Clamp01(colorValue * 100.0f);
+        this.color = Color.HSVToRGB(colorValue, 1f, 1f);
+
+        this.GetComponent<SpriteRenderer>().color = this.color;
     }
 
     public void LateUpdate() {
