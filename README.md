@@ -39,9 +39,10 @@ non-starred = important<br>
     - [ ] Behaviour
         - [ ] Basic
             - [x] Movement (constant velocity forward)
-            - [ ] > Eating (**)
+            - [x] Eating (**)
             - [ ] Mating (**)
                 - [ ] Genetic Algorithm (survival of the fittest) (**)
+                    - Start new generation after x amount of time or let ants actually mate ?
         - [x] Advanced (Neural nets) (*)
             - [x] Movement (*)
                 - [x] Inputs should be what AI sees (multiple senses that register RGB?)
