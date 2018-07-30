@@ -1,8 +1,44 @@
+using System;
 using UnityEngine;
 
 public static class World {
     private static AI currentSelectedAI;
     private static AI previousSelectedAI;
+    private static Grid grid;
+    private static UI ui;
+    private static int seed;
+    public static int age;
+
+    public static void Init(char[,] level) {
+        seed = (int)DateTime.Now.Ticks;
+        UnityEngine.Random.InitState(seed);
+
+        // Create grid object
+        GameObject gridInstance = GameObject.Instantiate(ResourcesList.GRID, new Vector3(0, 0, 0), Quaternion.identity);
+        gridInstance.name = "grid";
+        grid = gridInstance.GetComponent<Grid>();
+        grid.Init(level);
+
+        SetupCamera(grid.GetSizeInUnits(), grid.GetTileSizeInPixels().x);
+
+        // Create UI
+        GameObject uiInstance = GameObject.Instantiate(ResourcesList.UI, new Vector3(0, 0, 0), Quaternion.identity);
+        uiInstance.name = "ui";
+        ui = uiInstance.GetComponent<UI>();
+    }
+
+    private static void SetupCamera(Vector2 sizeInUnits, float tileHeight) {
+        Camera cam = Camera.main;
+        
+        Debug.Log(string.Format("screen width: {0}, screen height: {1}, tile height: {2}", Screen.width, Screen.height, tileHeight));
+
+        // Set size
+        float offset = 0f;
+        cam.orthographicSize = (sizeInUnits.y / 2) + (sizeInUnits.x / 5) + offset;
+
+        // Set Position
+        cam.transform.SetPositionAndRotation(new Vector3((sizeInUnits.x / 2) - 0.5f, (sizeInUnits.y / 2) -0.5f, cam.transform.position.z), cam.transform.rotation);
+    }
 
     public static void SetSelectedAI(AI newAI) {
         if(currentSelectedAI != newAI) {
@@ -19,26 +55,15 @@ public static class World {
         return previousSelectedAI;
     }
 
-    public static void Init(char[,] level) {
-        GameObject gridInstance = GameObject.Instantiate(ResourcesList.GRID, new Vector3(0, 0, 0), Quaternion.identity);
-        gridInstance.name = "grid";
-        Grid grid = gridInstance.GetComponent<Grid>();
-
-        grid.Init(level);
-
-        SetupCamera(grid.GetSizeInUnits(), grid.GetTileSizeInPixels().x);
+    public static Grid GetGrid() {
+        return grid;
     }
 
-    private static void SetupCamera(Vector2 sizeInUnits, float tileHeight) {
-        Camera cam = Camera.main;
-        
-        Debug.Log(string.Format("screen width: {0}, screen height: {1}, tile height: {2}", Screen.width, Screen.height, tileHeight));
+    public static UI GetUI() {
+        return ui;
+    }
 
-        // Set size
-        float offset = 0f;
-        cam.orthographicSize = (sizeInUnits.y / 2) + (sizeInUnits.x / 5) + offset;
-
-        // Set Position
-        cam.transform.SetPositionAndRotation(new Vector3((sizeInUnits.x / 2) - 0.5f, (sizeInUnits.y / 2) -0.5f, cam.transform.position.z), cam.transform.rotation);
+    public static int GetSeed() {
+        return seed;
     }
 }

@@ -66,6 +66,9 @@
      <Compile Include="Assets\Scripts\TileFood.cs" />
      <Compile Include="Assets\Scripts\TileGround.cs" />
      <Compile Include="Assets\Scripts\TileWall.cs" />
+     <Compile Include="Assets\Scripts\UI.cs" />
+     <Compile Include="Assets\Scripts\UIAIInfo.cs" />
+     <Compile Include="Assets\Scripts\UIWorldInfo.cs" />
      <Compile Include="Assets\Scripts\World.cs" />
      <Compile Include="Assets\Scripts\WorldGenerator.cs" />
      <None Include="Assets\Resources\Levels\level1.txt" />

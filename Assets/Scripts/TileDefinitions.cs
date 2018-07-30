@@ -12,10 +12,11 @@ public struct TileDefinition {
         this.color = color;
     }
 
-    public GameObject Instantiate(Vector2 position) {
+    public GameObject Instantiate(Vector2 position, GameObject parent) {
         GameObject tileInstance = GameObject.Instantiate(this.prefab, new Vector3(position.x, position.y, 0), Quaternion.identity);
         tileInstance.name = this.prefab.name;
         tileInstance.GetComponent<SpriteRenderer>().color = this.color;
+        tileInstance.transform.parent = parent.transform;
 
         return tileInstance;
     }

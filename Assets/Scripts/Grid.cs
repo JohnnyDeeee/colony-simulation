@@ -4,6 +4,7 @@ using System.Reflection;
 using UnityEngine;
 
 public class Grid : MonoBehaviour {
+    private int nextAgeUpdate = 1;
     [SerializeField] private Vector2 levelSize;
     [SerializeField] private float xOrg;
     [SerializeField] private float yOrg;
@@ -19,6 +20,12 @@ public class Grid : MonoBehaviour {
             World.GetSelectedAI().MarkSelected();
         if(World.GetPreviousSelectedAI())
             World.GetPreviousSelectedAI().MarkUnselected();
+
+        // Update world age every second
+        if(Time.time >= this.nextAgeUpdate) {
+            World.age += 1;
+            this.nextAgeUpdate += 1;
+        }
     }
 
     public void Init(char[,] level) {
@@ -65,15 +72,15 @@ public class Grid : MonoBehaviour {
                 } else // Unknown tile type
                     throw new Exception(String.Format("Tile type '{0}' not found", this.level[x, y]));
 
-                GameObject tileInstance = tileDefinition.Instantiate(new Vector2(x, y));
+                GameObject tileInstance = tileDefinition.Instantiate(new Vector2(x, y), this.gameObject);
 
                 Tile tile = tileInstance.GetComponent<Tile>();
                 this.tiles[x, y] = tile;
-                tile.SetParent(this.gameObject);
             }
         }
         
         // Create AI
+        GameObject aiParent = new GameObject("ai's");
         int spawnSize = 100;
         for(int i = 0; i < spawnSize; i++) {
             float randX = UnityEngine.Random.Range(0f, this.levelSize.x);
@@ -87,6 +94,7 @@ public class Grid : MonoBehaviour {
 
             GameObject aiInstance = GameObject.Instantiate(ResourcesList.AI_ANT, randTile.transform.position, Quaternion.identity);
             aiInstance.name = "ai_ant";
+            aiInstance.transform.parent = aiParent.transform;
         }
     }
 

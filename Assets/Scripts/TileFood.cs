@@ -9,7 +9,7 @@ public class TileFood : Tile {
 
     public void Update() {
         if(this.foodAmount <= 0f) {
-            TileDefinitions.TILE_GROUND.Instantiate(this.transform.position);
+            TileDefinitions.TILE_GROUND.Instantiate(this.transform.position, World.GetGrid().gameObject);
             GameObject.Destroy(this.gameObject);
         }
 

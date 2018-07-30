@@ -11,14 +11,14 @@ public class AI : SpriteObject {
     protected NeuralNetwork network;
     protected List<double> networkInput = new List<double>();
     protected double[] networkOutput;
-    [SerializeField] private Color selectedColor = Color.red;
-    [SerializeField] private float rotationMultiplier;
-    [SerializeField] private float movementMultiplier;
-    [SerializeField] private float nextRotation;
-    [SerializeField] private Vector2 nextVelocity;
-    [SerializeField] private float maxSeeDistance;
-    [SerializeField] private double[] vision;
-    [SerializeField] private int age;
+    public Color selectedColor = Color.red; // TODO: Change into a border or something?
+    public float rotationMultiplier { get; set;}
+    public float movementMultiplier { get; set;}
+    public float nextRotation { get; set;}
+    public Vector2 nextVelocity { get; set;}
+    public float maxSeeDistance { get; set;}
+    public double[] vision { get; set;}
+    public int age { get; set;}
 
     // DEBUG
     [SerializeField] private Color visionColor;

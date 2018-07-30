@@ -48,6 +48,7 @@ non-starred = important<br>
                 - [ ] Genetic Algorithm (**)
                     - Get the genomes of 2 of the best ants and merge/mutate those into genomes for the new generation
                     - The new generation gets added next to the existing generation
+                    - Use ai's age as fitness
         - [x] Advanced (Neural nets) (*)
             - [x] Movement (*)
                 - [x] Inputs should be what AI sees (multiple senses that register RGB?)
