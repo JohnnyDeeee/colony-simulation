@@ -113,6 +113,129 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &759044111
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 224057174409256028, guid: 5b3587362fdd84157927c635785564fc,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224057174409256028, guid: 5b3587362fdd84157927c635785564fc,
+        type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224057174409256028, guid: 5b3587362fdd84157927c635785564fc,
+        type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224057174409256028, guid: 5b3587362fdd84157927c635785564fc,
+        type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224057174409256028, guid: 5b3587362fdd84157927c635785564fc,
+        type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224057174409256028, guid: 5b3587362fdd84157927c635785564fc,
+        type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224057174409256028, guid: 5b3587362fdd84157927c635785564fc,
+        type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224057174409256028, guid: 5b3587362fdd84157927c635785564fc,
+        type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224057174409256028, guid: 5b3587362fdd84157927c635785564fc,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224057174409256028, guid: 5b3587362fdd84157927c635785564fc,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224057174409256028, guid: 5b3587362fdd84157927c635785564fc,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224057174409256028, guid: 5b3587362fdd84157927c635785564fc,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224057174409256028, guid: 5b3587362fdd84157927c635785564fc,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224057174409256028, guid: 5b3587362fdd84157927c635785564fc,
+        type: 2}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224057174409256028, guid: 5b3587362fdd84157927c635785564fc,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224057174409256028, guid: 5b3587362fdd84157927c635785564fc,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224057174409256028, guid: 5b3587362fdd84157927c635785564fc,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224057174409256028, guid: 5b3587362fdd84157927c635785564fc,
+        type: 2}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224057174409256028, guid: 5b3587362fdd84157927c635785564fc,
+        type: 2}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114894524025255656, guid: 5b3587362fdd84157927c635785564fc,
+        type: 2}
+      propertyPath: m_Text
+      value: "AI info\nrotation multiplier: 10\nmovement multiplier: 5\nnext rotation:
+        2016.777\nnext velocity: (2.6, 2.6)\nmax see distance: 10\nvision: \nage:
+        19\nfood amount: 1\nmax food amount: 1\neat probability: 0.4739849\nfood depletion
+        multiplier: 1\ndistance travelled: 1133.554\ncolor: \n"
+      objectReference: {fileID: 0}
+    - target: {fileID: 224171300272239448, guid: 5b3587362fdd84157927c635785564fc,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: -39.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224171300272239448, guid: 5b3587362fdd84157927c635785564fc,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -161.7
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5b3587362fdd84157927c635785564fc, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &1428921059
 GameObject:
   m_ObjectHideFlags: 0
@@ -162,7 +285,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 70
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2

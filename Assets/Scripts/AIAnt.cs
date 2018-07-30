@@ -2,13 +2,13 @@ using System.Linq;
 using UnityEngine;
 
 public class AIAnt : AI {
-    [SerializeField] private float foodAmount;
-    [SerializeField] private float maxFoodAmount;
-    [SerializeField] private bool dead;
-    [SerializeField] private float nextEatProbabillity;
-    [SerializeField] private float foodDepletionMultiplier;
-    [SerializeField] private float distanceTravelled;
-    [SerializeField] private Color color;
+    public float foodAmount {get; private set;}
+    public float maxFoodAmount {get; private set;}
+    public bool dead {get; private set;}
+    public float nextEatProbabillity {get; private set;}
+    public float foodDepletionMultiplier {get; private set;}
+    public float distanceTravelled {get; private set;}
+    public Color color {get; private set;}
 
     public new void Start() {
         base.Start();
@@ -38,7 +38,8 @@ public class AIAnt : AI {
 
         base.Update();
 
-        this.nextEatProbabillity = (float)this.networkOutput[2]; // First 2 are used in base class
+        if(this.networkOutput != null)
+            this.nextEatProbabillity = (float)this.networkOutput[2]; // First 2 are used in base class
 
         // Translate the network weights to a color
         // idea here is to be able to see if ants have a brain that looks alike

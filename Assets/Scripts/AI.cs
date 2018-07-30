@@ -12,16 +12,13 @@ public class AI : SpriteObject {
     protected List<double> networkInput = new List<double>();
     protected double[] networkOutput;
     public Color selectedColor = Color.red; // TODO: Change into a border or something?
-    public float rotationMultiplier { get; set;}
-    public float movementMultiplier { get; set;}
-    public float nextRotation { get; set;}
-    public Vector2 nextVelocity { get; set;}
-    public float maxSeeDistance { get; set;}
-    public double[] vision { get; set;}
-    public int age { get; set;}
-
-    // DEBUG
-    [SerializeField] private Color visionColor;
+    public float rotationMultiplier { get; private set;}
+    public float movementMultiplier { get; private set;}
+    public float nextRotation { get; private set;}
+    public Vector2 nextVelocity { get; private set;}
+    public float maxSeeDistance { get; private set;}
+    public double[] vision { get; private set;}
+    public int age { get; private set;}
 
     public void Start() {
         this.originalColor = this.GetComponent<SpriteRenderer>().color;
@@ -40,6 +37,8 @@ public class AI : SpriteObject {
     }
 
     public void Update() {
+        this.vision = new double[3]{0, 0, 0}; // Reset the vision (done at beginning so that UIAIInfo can access it)
+
         // Cast rays (the "eyes" part of the AI)
         RaycastHit2D[] hits = Physics2D.RaycastAll(this.transform.position, this.transform.up, this.maxSeeDistance);
         Debug.DrawRay(this.transform.position, this.transform.up * this.maxSeeDistance, Color.red, 0);
@@ -55,9 +54,6 @@ public class AI : SpriteObject {
                 SpriteRenderer sr = hit.collider.GetComponent<SpriteRenderer>();
                 this.vision = new double[3] {sr.color.r, sr.color.g, sr.color.b};
 
-                // DEBUG
-                this.visionColor = new Color((float)this.vision[0], (float)this.vision[1], (float)this.vision[2]);
-
                 // Draw a ray towards what we are seeing
                 Debug.DrawRay(this.transform.position, collider.transform.position - this.transform.position, Color.blue, 0);
 
@@ -68,14 +64,12 @@ public class AI : SpriteObject {
         Rigidbody2D rigidBody = this.GetComponent<Rigidbody2D>();
 
         // Let the "brain" do its thing with the given inputs
-        if(this.vision != null) {
-            this.vision.ToList().ForEach(x => { this.networkInput.Add(x); }); // Add vision to the input array
-            this.networkOutput = this.network.FeedForward(this.networkInput.ToArray()); // Brain calculating
-            float rotation = (float)this.networkOutput[0] * this.rotationMultiplier;
-            float velocity = (float)this.networkOutput[1] * this.movementMultiplier;
-            this.nextRotation = (rotation + rigidBody.rotation);
-            this.nextVelocity = new Vector2(velocity, velocity);
-        }
+        this.vision.ToList().ForEach(x => { this.networkInput.Add(x); }); // Add vision to the input array
+        this.networkOutput = this.network.FeedForward(this.networkInput.ToArray()); // Brain calculating
+        float rotation = (float)this.networkOutput[0] * this.rotationMultiplier;
+        float velocity = (float)this.networkOutput[1] * this.movementMultiplier;
+        this.nextRotation = (rotation + rigidBody.rotation);
+        this.nextVelocity = new Vector2(velocity, velocity);
 
         // Move according to the output of the "brain"
         rigidBody.MoveRotation(this.nextRotation);
@@ -85,10 +79,9 @@ public class AI : SpriteObject {
         if(Time.time >= this.nextAgeUpdate) {
             this.age += 1;
             this.nextAgeUpdate += this.ageInterval;
-        }
+        }  
 
-        this.vision = null; // Reset the vision
-        this.networkInput = new List<double>(); // Reset network input      
+        this.networkInput = new List<double>(); // Reset network input
     }
 
     public void OnMouseDown() {

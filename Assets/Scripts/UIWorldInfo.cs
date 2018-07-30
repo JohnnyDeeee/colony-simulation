@@ -3,11 +3,10 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class UIWorldInfo : UI {
-    private Text text;
+    [SerializeField] private Text text;
 
     public new void Start () {
-        this.text = this.GetComponent<Text>();
-        this.text.rectTransform.anchoredPosition = new Vector2(0, 0);
+        
     }
     
     public void Update () {
