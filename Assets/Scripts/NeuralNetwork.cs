@@ -15,7 +15,7 @@ public class NeuralNetwork {
     private double[] inputWeights;
     private double[] hiddenWeights;
 
-    public NeuralNetwork(int inputLayerSize, int hiddenLayerSize, int outputLayerSize) {
+    public NeuralNetwork(int inputLayerSize, int hiddenLayerSize, int outputLayerSize, double[] inputWeights = null) {
         this.inputLayerSize = inputLayerSize;
         this.hiddenLayerSize = hiddenLayerSize;
         this.outputLayerSize = outputLayerSize;
@@ -31,12 +31,15 @@ public class NeuralNetwork {
         this.hiddenNodes[0] = bias;
 
         // Weights
-        this.inputWeights = new double[(this.inputLayerSize +1) * this.hiddenLayerSize]; // +1 for bias
+        if(inputWeights == null) {
+            this.inputWeights = new double[(this.inputLayerSize +1) * this.hiddenLayerSize]; // +1 for bias
+            for(int i = 0; i < this.inputWeights.Length; i++) // Initialize weights randomly
+                this.inputWeights[i] = ((UnityEngine.Random.value * 2) * epsilonInit) - epsilonInit;
+        } else
+            this.inputWeights = inputWeights;
+
         this.hiddenWeights = new double[(this.hiddenLayerSize +1)  * this.outputLayerSize]; // +1 for bias
-        // Initialize weights randomly
-        for(int i = 0; i < this.inputWeights.Length; i++)
-            this.inputWeights[i] = ((UnityEngine.Random.value * 2) * epsilonInit) - epsilonInit;
-        for(int i = 0; i < this.hiddenWeights.Length; i++)
+        for(int i = 0; i < this.hiddenWeights.Length; i++) // Initialize weights randomly
             this.hiddenWeights[i] = ((UnityEngine.Random.value * 2) * epsilonInit) - epsilonInit;
     }
 

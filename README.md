@@ -36,15 +36,18 @@ non-starred = important<br>
         - [x] Zoom towards cliked AI
 - AI
     - [x] Spawning (basic) 
+    - [x] Give Age property
+        - [x] Update age every second
     - [ ] Decay dead bodies over time
         - [ ] Maybe ai can decide to go carnivore and eat the dead bodies?
     - [ ] Behaviour
         - [ ] Basic
             - [x] Movement (constant velocity forward)
             - [x] Eating (**)
-            - [ ] Mating (**)
-                - [ ] Genetic Algorithm (survival of the fittest) (**)
-                    - Start new generation after x amount of time or let ants actually mate ?
+            - [ ] Reproducing (**)
+                - [ ] Genetic Algorithm (**)
+                    - Get the genomes of 2 of the best ants and merge/mutate those into genomes for the new generation
+                    - The new generation gets added next to the existing generation
         - [x] Advanced (Neural nets) (*)
             - [x] Movement (*)
                 - [x] Inputs should be what AI sees (multiple senses that register RGB?)

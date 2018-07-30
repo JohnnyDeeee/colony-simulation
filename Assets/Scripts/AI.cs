@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -5,6 +6,8 @@ using UnityEngine;
 public class AI : SpriteObject {
     private bool selected;
     private Color originalColor;
+    private int nextAgeUpdate = 1;
+    private int ageInterval = 1;
     protected NeuralNetwork network;
     protected List<double> networkInput = new List<double>();
     protected double[] networkOutput;
@@ -15,6 +18,7 @@ public class AI : SpriteObject {
     [SerializeField] private Vector2 nextVelocity;
     [SerializeField] private float maxSeeDistance;
     [SerializeField] private double[] vision;
+    [SerializeField] private int age;
 
     // DEBUG
     [SerializeField] private Color visionColor;
@@ -77,6 +81,12 @@ public class AI : SpriteObject {
         rigidBody.MoveRotation(this.nextRotation);
         rigidBody.velocity = (this.transform.rotation * Vector2.up) * this.nextVelocity;  
 
+        // Update age
+        if(Time.time >= this.nextAgeUpdate) {
+            this.age += 1;
+            this.nextAgeUpdate += this.ageInterval;
+        }
+
         this.vision = null; // Reset the vision
         this.networkInput = new List<double>(); // Reset network input      
     }
@@ -106,5 +116,15 @@ public class AI : SpriteObject {
             this.GetComponent<SpriteRenderer>().color = this.originalColor;
             Camera.main.GetComponent<Cam>().StopFollowing(this.gameObject);
         }
+    }
+
+    public byte[] GetGenome() {
+        return this.network.GetInputWeights().SelectMany(x => BitConverter.GetBytes(x)).ToArray();
+    }
+
+    public void SetGenome(byte[] genome) {
+        double[] weights = Enumerable.Range(0, genome.Length / sizeof(double))
+                            .Select(offset => BitConverter.ToDouble(genome, offset * sizeof(double))).ToArray();
+        this.network = new NeuralNetwork(this.network.GetInputLayerSize(), this.network.GetHiddenLayerSize(), this.network.GetOutputLayerSize(), weights);
     }
 }

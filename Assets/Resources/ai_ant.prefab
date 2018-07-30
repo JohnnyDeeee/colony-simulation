@@ -103,6 +103,7 @@ MonoBehaviour:
   nextEatProbabillity: 0
   foodDepletionMultiplier: 0
   distanceTravelled: 0
+  color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!212 &212268253765288504
 SpriteRenderer:
   m_ObjectHideFlags: 1
