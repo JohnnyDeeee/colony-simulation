@@ -53,3 +53,9 @@ non-starred = important<br>
             - [x] Movement (*)
                 - [x] Inputs should be what AI sees (multiple senses that register RGB?)
                 - [x] 1 Output, used to rotate the AI
+- UI
+    - [x] World info
+    - [ ] Selected AI info
+        - [x] AI info
+        - [ ] Vision (show the color it is seeing?)
+        - [ ] AIAnt info
