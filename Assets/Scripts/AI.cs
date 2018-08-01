@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -111,13 +112,18 @@ public class AI : SpriteObject {
         }
     }
 
-    public byte[] GetGenome() {
-        return this.network.GetInputWeights().SelectMany(x => BitConverter.GetBytes(x)).ToArray();
+    // TODO: TEST THIS
+    public BitArray GetGenome() {
+        byte[] bytes = this.network.GetInputWeights().SelectMany(x => BitConverter.GetBytes(x)).ToArray();
+        return new BitArray(bytes);
     }
 
-    public void SetGenome(byte[] genome) {
+    // TODO: TEST THIS
+    public void SetGenome(BitArray genome) {
+        byte[] bytes = new byte[1];
+        genome.CopyTo(bytes, 0);
         double[] weights = Enumerable.Range(0, genome.Length / sizeof(double))
-                            .Select(offset => BitConverter.ToDouble(genome, offset * sizeof(double))).ToArray();
+                            .Select(offset => BitConverter.ToDouble(bytes, offset * sizeof(double))).ToArray();
         this.network = new NeuralNetwork(this.network.GetInputLayerSize(), this.network.GetHiddenLayerSize(), this.network.GetOutputLayerSize(), weights);
     }
 }

@@ -38,14 +38,14 @@ non-starred = important<br>
     - [x] Spawning (basic) 
     - [x] Give Age property
         - [x] Update age every second
-    - [ ] Decay dead bodies over time
-        - [ ] Maybe ai can decide to go carnivore and eat the dead bodies?
+    - [ ] Decay dead bodies over time (**)
+        - [ ] Maybe ai can decide to go carnivore and eat the dead bodies? (**)
     - [ ] Behaviour
         - [ ] Basic
             - [x] Movement (constant velocity forward)
             - [x] Eating (**)
-            - [ ] Reproducing (**)
-                - [ ] Genetic Algorithm (**)
+            - [ ] > Reproducing
+                - [ ] Genetic Algorithm
                     - Get the genomes of 2 of the best ants and merge/mutate those into genomes for the new generation
                     - The new generation gets added next to the existing generation
                     - Use ai's age as fitness
@@ -57,5 +57,6 @@ non-starred = important<br>
     - [x] World info
     - [ ] Selected AI info
         - [x] AI info
-        - [ ] Vision (show the color it is seeing?)
-        - [ ] AIAnt info
+        - [x] Vision (show the color it is seeing?)
+        - [x] AIAnt info
+        - [ ] Show ai in seperate camera (so dont follow ai with main camera when selected) (**)
