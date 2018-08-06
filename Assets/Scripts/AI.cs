@@ -21,7 +21,7 @@ public class AI : SpriteObject {
     public double[] vision { get; private set;}
     public int age { get; private set;}
 
-    public float fitness { get { return this.age; } }
+    public float fitness { get { return this.age; } private set { this.fitness = value; } }
     public float normFitness { get; set; } // Normalized fitness
     public float accNormFitness { get; set; } // Accumulated Normalized fitness
 
@@ -39,6 +39,8 @@ public class AI : SpriteObject {
         this.nextRotation = 0f;
 
         this.vision = new double[3];
+
+        this.nextAgeUpdate = Mathf.CeilToInt(Time.time);
     }
 
     public void Update() {

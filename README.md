@@ -44,17 +44,21 @@ non-starred = important<br>
         - [ ] Basic
             - [x] Movement (constant velocity forward)
             - [x] Eating (**)
-            - [ ] > Reproducing
-                - [ ] Genetic Algorithm
+            - [ ] Reproducing
+                - [x] Genetic Algorithm
                     - Get the genomes of 2 of the best ants and merge/mutate those into genomes for the new generation
                     - The new generation gets added next to the existing generation
                     - Use ai's age as fitness
+                - [ ] Why are all the newborns red? bug?
+                - [ ] Improve performance
         - [x] Advanced (Neural nets) (*)
             - [x] Movement (*)
                 - [x] Inputs should be what AI sees (multiple senses that register RGB?)
                 - [x] 1 Output, used to rotate the AI
 - UI
-    - [x] World info
+    - [ ] World info
+        - [ ] Split generation info into its own class
+    - [ ] Add fitness values into a continues diagram?
     - [ ] Selected AI info
         - [x] AI info
         - [x] Vision (show the color it is seeing?)

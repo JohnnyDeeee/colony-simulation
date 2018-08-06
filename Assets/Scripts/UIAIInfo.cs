@@ -43,7 +43,7 @@ public class UIAIInfo : UI {
             textLines.Add("max food amount: " + ant.maxFoodAmount);
             textLines.Add("eat probability: " + ant.nextEatProbabillity);
             textLines.Add("food depletion multiplier: " + ant.foodDepletionMultiplier);
-            textLines.Add("distance travelled: " + ant.distanceTravelled);
+            textLines.Add("distance travelled: " + ant.distanceTravelled);  
             textLines.Add("color: ");
             this.antColorImage.gameObject.SetActive(true);
             this.antColorImage.color = ant.color;
