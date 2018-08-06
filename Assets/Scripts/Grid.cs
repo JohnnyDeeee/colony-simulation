@@ -1,10 +1,11 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
 public class Grid : MonoBehaviour {
-    private int nextAgeUpdate = 1;
     [SerializeField] private Vector2 levelSize;
     [SerializeField] private float xOrg;
     [SerializeField] private float yOrg;
@@ -14,18 +15,54 @@ public class Grid : MonoBehaviour {
     private char[,] level;
     private Tile[,] tiles;
     private float foodThreshold;
+    private GameObject aiParent;
+    private bool spawnLock;
 
     public void Update() {
+        // Update world age every second
+        if(Time.time >= World.nextAgeUpdate) {
+            World.age += 1;
+            World.nextAgeUpdate += 1;
+            spawnLock = false;
+        }
+
+        // Start creating new population
+        if(World.age > 0 && (World.age % World.maxPopulationAge == 0) && !spawnLock) {
+            spawnLock = true;
+            
+            // Cleanup dead ants
+            for (int i = 0; i < World.ais.Count; i++) {
+                AIAnt ant = World.ais[i] as AIAnt;
+                if(!ant.dead)
+                    continue;
+
+                World.ais.Remove(ant);
+                GameObject.Destroy(ant.gameObject);
+            }
+
+            // Create new population
+            List<AI> candidates = World.ais;
+            AI winner = GeneticAlgorithm.CalculateWinner(candidates);
+            this.CreatePopulation(100, winner);
+            
+            // DEBUG
+            // winner.selectedColor = Color.green;
+            // winner.MarkSelected(); // Select the winner
+            // World.SetSelectedAI(winner);
+            // Debug.Log(string.Format("f:{0}, nf:{1}, af:{2}", winner.fitness, winner.normFitness, winner.accNormFitness));
+            // Debug.Log(String.Join(",", winner.GetGenome().OfType<bool>().Select(x => x?"1":"0").ToArray()));
+            // BitArray newGenome = GeneticAlgorithm.Crossover(winner.GetGenome());
+            // Debug.Log(String.Join(",", newGenome.OfType<bool>().Select(x => x?"1":"0").ToArray()));
+            // newGenome = GeneticAlgorithm.Mutation(newGenome);
+            // Debug.Log(String.Join(",", newGenome.OfType<bool>().Select(x => x?"1":"0").ToArray()));
+            // UnityEditor.EditorApplication.isPaused = true;
+        }
+
+        // Mark ai
         if(World.GetSelectedAI())
             World.GetSelectedAI().MarkSelected();
         if(World.GetPreviousSelectedAI())
             World.GetPreviousSelectedAI().MarkUnselected();
-
-        // Update world age every second
-        if(Time.time >= this.nextAgeUpdate) {
-            World.age += 1;
-            this.nextAgeUpdate += 1;
-        }
     }
 
     public void Init(char[,] level) {
@@ -80,9 +117,14 @@ public class Grid : MonoBehaviour {
         }
         
         // Create AI
-        GameObject aiParent = new GameObject("ai's");
-        int spawnSize = 100;
-        for(int i = 0; i < spawnSize; i++) {
+        this.aiParent = new GameObject("ai's"); 
+        this.CreatePopulation(100);
+    }
+
+    private void CreatePopulation(int amount, AI parent = null) {
+        World.generation += 1;
+
+        for(int i = 0; i < amount; i++) {
             float randX = UnityEngine.Random.Range(0f, this.levelSize.x);
             float randY = UnityEngine.Random.Range(0f, this.levelSize.y);
             Tile randTile = this.GetTile((int)randX, (int)randY);
@@ -94,7 +136,18 @@ public class Grid : MonoBehaviour {
 
             GameObject aiInstance = GameObject.Instantiate(ResourcesList.AI_ANT, randTile.transform.position, Quaternion.identity);
             aiInstance.name = "ai_ant";
-            aiInstance.transform.parent = aiParent.transform;
+            aiInstance.transform.parent = this.aiParent.transform;
+
+            AI ai = aiInstance.GetComponent<AI>();
+
+            // If parent, do crossover/mutation
+            if(parent) {
+                BitArray newGenome = GeneticAlgorithm.Crossover(parent.GetGenome());
+                newGenome = GeneticAlgorithm.Mutation(parent.GetGenome());
+                ai.SetGenome(newGenome);
+            }
+
+            World.ais.Add(ai);
         }
     }
 

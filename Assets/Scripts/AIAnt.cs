@@ -9,9 +9,10 @@ public class AIAnt : AI {
     public float foodDepletionMultiplier {get; private set;}
     public float distanceTravelled {get; private set;}
     public Color color {get; private set;}
+    public int generation {get; private set;}
 
-    public new void Start() {
-        base.Start();
+    public new void Awake() {
+        base.Awake();
 
         this.network = new NeuralNetwork(
             this.network.GetInputLayerSize() + 1,
@@ -20,6 +21,7 @@ public class AIAnt : AI {
         this.foodDepletionMultiplier = 1f;
         this.maxFoodAmount = 1.0f; // 100%
         this.foodAmount = this.maxFoodAmount;
+        this.generation = World.generation;
 
         this.GetComponent<Rigidbody2D>().rotation = Random.Range(-180, 180+1);
     }
@@ -92,5 +94,7 @@ public class AIAnt : AI {
         rigidBody.velocity = Vector2.zero;
         rigidBody.freezeRotation = true;
         rigidBody.simulated = false;
+
+        // TODO: Let bodies decintegrate over time and provide food for carnivores
     }
 }

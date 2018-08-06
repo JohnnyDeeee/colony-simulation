@@ -21,7 +21,11 @@ public class AI : SpriteObject {
     public double[] vision { get; private set;}
     public int age { get; private set;}
 
-    public void Start() {
+    public float fitness { get { return this.age; } }
+    public float normFitness { get; set; } // Normalized fitness
+    public float accNormFitness { get; set; } // Accumulated Normalized fitness
+
+    public void Awake() {
         this.originalColor = this.GetComponent<SpriteRenderer>().color;
         this.rotationMultiplier = 10f;
         this.movementMultiplier = 5f;
@@ -112,18 +116,25 @@ public class AI : SpriteObject {
         }
     }
 
-    // TODO: TEST THIS
     public BitArray GetGenome() {
         byte[] bytes = this.network.GetInputWeights().SelectMany(x => BitConverter.GetBytes(x)).ToArray();
         return new BitArray(bytes);
     }
 
-    // TODO: TEST THIS
     public void SetGenome(BitArray genome) {
-        byte[] bytes = new byte[1];
-        genome.CopyTo(bytes, 0);
-        double[] weights = Enumerable.Range(0, genome.Length / sizeof(double))
-                            .Select(offset => BitConverter.ToDouble(bytes, offset * sizeof(double))).ToArray();
+        byte[] bytes = new byte[genome.Length / 8];
+        for (int i = 0; i < genome.Length; i+=8) { // 8 bits in a byte
+            // Convert bits to a byte
+            List<bool> bits = genome.OfType<bool>().ToList().GetRange(i, 8).ToList();
+            byte @byte = 0;
+            bits.ForEach(x => { @byte <<= 1; if(x) @byte |= 1; });
+            bytes[i / 8] = @byte;
+        }
+        double[] weights = new double[bytes.Length / 8]; // 8 bytes in a double
+        for (int i = 0; i < weights.Length; i++) {
+            weights[i] = BitConverter.ToDouble(bytes, i);
+        }
+
         this.network = new NeuralNetwork(this.network.GetInputLayerSize(), this.network.GetHiddenLayerSize(), this.network.GetOutputLayerSize(), weights);
     }
 }

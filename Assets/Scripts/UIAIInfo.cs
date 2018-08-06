@@ -38,6 +38,7 @@ public class UIAIInfo : UI {
         // AIAnt info
         AIAnt ant = ai as AIAnt;
         if(ant) {
+            textLines.Add("generation: " + ant.generation);
             textLines.Add("food amount: " + ant.foodAmount);
             textLines.Add("max food amount: " + ant.maxFoodAmount);
             textLines.Add("eat probability: " + ant.nextEatProbabillity);

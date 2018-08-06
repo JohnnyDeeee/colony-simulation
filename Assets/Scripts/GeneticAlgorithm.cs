@@ -1,5 +1,10 @@
-public class GeneticAlgorithm {
-    // TODO: Selection
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+public static class GeneticAlgorithm {
+    // Selection
     //  1. Normalize each fitness (normFitness = fitness / sum(allFitnesses)), so that the sum of all fitnesses is 1
     //  2. Sort population desc fitness
     //  3. Accumulate normalized fitnesses (accFitness = normFitness + allPreviousNormFitnesses)
@@ -8,16 +13,73 @@ public class GeneticAlgorithm {
     //  4. Choose random number R between 0 and 1
     //  5. Winner is the last one whose accFitness >= R
     // https://en.wikipedia.org/wiki/Selection_(genetic_algorithm)
+    public static AI CalculateWinner(List<AI> candidates) {
+        // Calculate total fitness of all candidates summed together
+        float totalFitnesses = candidates.Select(x => x.fitness).Sum();
 
-    // TODO: Crossover
+        // Normalize fitnesses
+        candidates.ForEach(x => x.normFitness = NormalizeFitness(x.fitness, totalFitnesses));
+        
+        // Sort by descending fitness
+        candidates = candidates.OrderByDescending(x => x.fitness).ToList();
+
+        // Accumulate normalized fitnesses
+        foreach (AI candidate in candidates) {
+            int index = candidates.IndexOf(candidate);
+            float[] previousFitnesses = candidates.GetRange(0, index).Select(x => x.normFitness).ToArray();
+            candidate.accNormFitness = AccumulateNormalizedFitness(candidate.normFitness, previousFitnesses);
+        }
+
+        // Choose winner
+        AI winner = ChooseWinner(candidates.ToArray());
+        return winner;
+    }
+
+    private static float NormalizeFitness(float fitness, float allFitnesses) {
+        float normalizedFitness = fitness / allFitnesses;
+        return normalizedFitness;
+    }
+
+    private static float AccumulateNormalizedFitness(float normFitness, float[] previousNormFitnesses) {
+        float accFitness = normFitness + previousNormFitnesses.Sum();
+        return accFitness;
+    }
+
+    private static AI ChooseWinner(AI[] candidates) {
+        float random = Random.value;
+        AI winner = null;
+        foreach (AI candidate in candidates)
+            if(candidate.accNormFitness >= random) winner = candidate;
+
+        return winner;
+    }
+
     //  Single point crossover
-    //  1. Randomly pick a spot in the parents' chromosomes
+    //  1. Randomly pick a spot in the parents' genome
     //  2. Bits to the right of the point are swapped
     // https://en.wikipedia.org/wiki/Crossover_(genetic_algorithm)
+    public static BitArray Crossover(BitArray genome) {
+        int randomIndex = Random.Range(0, genome.Length);
+        for (int i = 0; i < genome.Length; i++) {
+            if(i > randomIndex)
+                genome.Set(i, !genome.Get(i));
+        }
 
-    // TODO: Mutation
+        return genome;
+    }
+
+    // Mutation
     //  Flip Bit
-    //  1. Randomly pick a spot in the child chromosomes
+    //  1. Randomly pick a spot in the child genome
     //  2. Flip the bit on that spot (0 => 1, 1 => 0)
     // https://en.wikipedia.org/wiki/Mutation_(genetic_algorithm)
+    public static BitArray Mutation(BitArray genome) {
+        if(Random.value >= World.mutationProbability)
+            return genome; // No mutation has happend
+        
+        int randomIndex = Random.Range(0, genome.Length);
+        genome.Set(randomIndex, !genome.Get(randomIndex));
+
+        return genome;
+    }
 }

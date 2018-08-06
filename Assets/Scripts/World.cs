@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public static class World {
@@ -7,7 +8,14 @@ public static class World {
     private static Grid grid;
     private static UI ui;
     private static int seed;
+    public static List<AI> ais = new List<AI>();
     public static int age;
+    public static int generation;
+
+    // Settings
+    public static int nextAgeUpdate = 1; // How many seconds one year in the world takes
+    public static int maxPopulationAge = 30; // After every X ages a new population will be born
+    public static readonly float mutationProbability = 0.03f;
 
     public static void Init(char[,] level) {
         seed = (int)DateTime.Now.Ticks;
