@@ -46,11 +46,19 @@ public class AIAnt : AI {
         // Translate the network weights to a color
         // idea here is to be able to see if ants have a brain that looks alike
         // TODO: Check what happens to kids when we implement mating
-        double weightsAvg = this.network.GetInputWeights().Average();
-
-        float colorValue = Mathf.Abs(0.5f * (float)weightsAvg);
-        colorValue = Mathf.Clamp01(colorValue * 100.0f);
-        this.color = Color.HSVToRGB(colorValue, 1f, 1f);
+        double[] inputWeights = this.network.GetInputWeights();
+        float[] colorValues = new float[inputWeights.Length];
+        for(int i = 0; i < inputWeights.Length; i++) {
+            float colorValue = (10f * (float)inputWeights[i]);
+            colorValue = Mathf.Clamp01(colorValue);
+            
+            // Merge this color with the previous one
+            if(i > 0)
+                colorValue = (colorValues[i-1] * 0.5f) + (colorValue * 0.5f);
+            
+            colorValues[i] = Mathf.Abs(colorValue);
+        }
+        this.color = Color.HSVToRGB(colorValues[colorValues.Length-1], 1f, 1f);
 
         this.GetComponent<SpriteRenderer>().color = this.color;
     }

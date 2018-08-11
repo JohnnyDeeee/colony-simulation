@@ -14,8 +14,8 @@ public static class World {
 
     // Settings
     public static int nextAgeUpdate = 1; // How many seconds one year in the world takes
-    public static int maxPopulationAge = 30; // After every X ages a new population will be born
-    public static readonly float mutationProbability = 0.03f;
+    public static int maxPopulationAge = 50; // After every X ages a new population will be born
+    public static readonly float mutationProbability = 1f; //0.03f;
 
     public static void Init(char[,] level) {
         seed = (int)DateTime.Now.Ticks;

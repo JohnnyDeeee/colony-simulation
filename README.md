@@ -49,12 +49,12 @@ non-starred = important<br>
                     - Get the genomes of 2 of the best ants and merge/mutate those into genomes for the new generation
                     - The new generation gets added next to the existing generation
                     - Use ai's age as fitness
-                - [ ] Why are all the newborns red? bug?
-                - [ ] Improve performance
+                - [ ] Actually let 2 ants produce a baby (not just create a whole new population)
         - [x] Advanced (Neural nets) (*)
             - [x] Movement (*)
                 - [x] Inputs should be what AI sees (multiple senses that register RGB?)
                 - [x] 1 Output, used to rotate the AI
+                - [ ] Ants don't really seem to improve movement (maybe the need more eyes, or longer sight?)
 - UI
     - [ ] World info
         - [ ] Split generation info into its own class
@@ -64,3 +64,4 @@ non-starred = important<br>
         - [x] Vision (show the color it is seeing?)
         - [x] AIAnt info
         - [ ] Show ai in seperate camera (so dont follow ai with main camera when selected) (**)
+    - [x] Speed buttons

@@ -43,7 +43,7 @@ public class Grid : MonoBehaviour {
             // Create new population
             List<AI> candidates = World.ais;
             AI winner = GeneticAlgorithm.CalculateWinner(candidates);
-            this.CreatePopulation(100, winner);
+            this.CreatePopulation(30, winner);
             
             // DEBUG
             // winner.selectedColor = Color.green;
