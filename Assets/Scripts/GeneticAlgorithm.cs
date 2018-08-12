@@ -4,6 +4,14 @@ using System.Linq;
 using UnityEngine;
 
 public static class GeneticAlgorithm {
+    public static AI[] GetParents(List<AI> candidates) {
+        AI parent1 = CalculateWinner(candidates);
+        candidates.Remove(parent1);
+        AI parent2 = CalculateWinner(candidates);
+
+        return new AI[] { parent1, parent2 };
+    }
+
     // Selection
     //  1. Normalize each fitness (normFitness = fitness / sum(allFitnesses)), so that the sum of all fitnesses is 1
     //  2. Sort population desc fitness
@@ -56,16 +64,17 @@ public static class GeneticAlgorithm {
 
     //  Single point crossover
     //  1. Randomly pick a spot in the parents' genome
-    //  2. Bits to the right of the point are swapped
+    //  2. Bits to the right of the point are swapped with the genome of the other parent
     // https://en.wikipedia.org/wiki/Crossover_(genetic_algorithm)
-    public static BitArray Crossover(BitArray genome) {
-        int randomIndex = Random.Range(0, genome.Length);
-        for (int i = 0; i < genome.Length; i++) {
-            if(i > randomIndex)
-                genome.Set(i, !genome.Get(i));
+    public static BitArray Crossover(BitArray genomeParent1, BitArray genomeParent2) {
+        BitArray newGenome = new BitArray(genomeParent1.Length);
+        int randomIndex = Random.Range(0, genomeParent1.Length);
+        for (int i = 0; i < newGenome.Length; i++) {
+            if(i >= randomIndex)
+                newGenome.Set(i, genomeParent2.Get(i));
         }
 
-        return genome;
+        return newGenome;
     }
 
     // Mutation
@@ -74,12 +83,13 @@ public static class GeneticAlgorithm {
     //  2. Flip the bit on that spot (0 => 1, 1 => 0)
     // https://en.wikipedia.org/wiki/Mutation_(genetic_algorithm)
     public static BitArray Mutation(BitArray genome) {
+        BitArray newGenome = genome;
         if(Random.value >= World.mutationProbability)
             return genome; // No mutation has happend
         
         int randomIndex = Random.Range(0, genome.Length);
-        genome.Set(randomIndex, !genome.Get(randomIndex));
+        newGenome.Set(randomIndex, !newGenome.Get(randomIndex));
 
-        return genome;
+        return newGenome;
     }
 }

@@ -42,8 +42,8 @@ public class Grid : MonoBehaviour {
 
             // Create new population
             List<AI> candidates = World.ais;
-            AI winner = GeneticAlgorithm.CalculateWinner(candidates);
-            this.CreatePopulation(30, winner);
+            AI[] parents = GeneticAlgorithm.GetParents(candidates);
+            this.CreatePopulation(30, parents);
             
             // DEBUG
             // winner.selectedColor = Color.green;
@@ -121,7 +121,7 @@ public class Grid : MonoBehaviour {
         this.CreatePopulation(100);
     }
 
-    private void CreatePopulation(int amount, AI parent = null) {
+    private void CreatePopulation(int amount, AI[] parents = null) {
         World.generation += 1;
 
         for(int i = 0; i < amount; i++) {
@@ -141,9 +141,11 @@ public class Grid : MonoBehaviour {
             AI ai = aiInstance.GetComponent<AI>();
 
             // If parent, do crossover/mutation
-            if(parent) {
-                BitArray newGenome = GeneticAlgorithm.Crossover(parent.GetGenome());
-                newGenome = GeneticAlgorithm.Mutation(parent.GetGenome());
+            if(parents != null && parents.Length == 2) {
+                AI parent1 = parents[0];
+                AI parent2 = parents[1];
+                BitArray newGenome = GeneticAlgorithm.Crossover(parent1.GetGenome(), parent2.GetGenome());
+                newGenome = GeneticAlgorithm.Mutation(newGenome);
                 ai.SetGenome(newGenome);
             }
 
