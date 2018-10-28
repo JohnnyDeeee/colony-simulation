@@ -27,7 +27,7 @@ public static class GeneticAlgorithm {
 
         // Normalize fitnesses
         candidates.ForEach(x => x.normFitness = NormalizeFitness(x.fitness, totalFitnesses));
-        
+
         // Sort by descending fitness
         candidates = candidates.OrderByDescending(x => x.fitness).ToList();
 
@@ -40,6 +40,7 @@ public static class GeneticAlgorithm {
 
         // Choose winner
         AI winner = ChooseWinner(candidates.ToArray());
+
         return winner;
     }
 
@@ -56,7 +57,7 @@ public static class GeneticAlgorithm {
     private static AI ChooseWinner(AI[] candidates) {
         float random = Random.value;
         AI winner = null;
-        foreach (AI candidate in candidates)
+        foreach (AI candidate in candidates.Reverse()) // Wikipedia doesn't mention reversing the list, but if we dont then we will always pick the latest one in the list (with the highest accNormFitness)
             if(candidate.accNormFitness >= random) winner = candidate;
 
         return winner;

@@ -8,7 +8,7 @@ public class AI : SpriteObject {
     private bool selected;
     private Color originalColor;
     private int nextAgeUpdate = 1;
-    private int ageInterval = 1;
+    private int ageInterval = 1; // Seconds
     protected NeuralNetwork network;
     protected List<double> networkInput = new List<double>();
     protected double[] networkOutput;
@@ -75,12 +75,9 @@ public class AI : SpriteObject {
         this.networkOutput = this.network.FeedForward(this.networkInput.ToArray()); // Brain calculating
         float rotation = (float)this.networkOutput[0] * this.rotationMultiplier;
         float velocity = (float)this.networkOutput[1] * this.movementMultiplier;
-        this.nextRotation = (rotation + rigidBody.rotation);
+        
+        this.nextRotation = (rotation + rigidBody.rotation);        
         this.nextVelocity = new Vector2(velocity, velocity);
-
-        // Move according to the output of the "brain"
-        rigidBody.MoveRotation(this.nextRotation);
-        rigidBody.velocity = (this.transform.rotation * Vector2.up) * this.nextVelocity;  
 
         // Update age
         if(Time.time >= this.nextAgeUpdate) {
@@ -89,6 +86,14 @@ public class AI : SpriteObject {
         }  
 
         this.networkInput = new List<double>(); // Reset network input
+    }
+
+    public void FixedUpdate() {
+        Rigidbody2D rigidBody = this.GetComponent<Rigidbody2D>();
+
+        // Move according to the output of the "brain"
+        rigidBody.rotation = Mathf.LerpAngle(rigidBody.rotation, this.nextRotation, 10f * Time.fixedDeltaTime);
+        rigidBody.velocity = Vector2.Lerp(rigidBody.velocity, (this.transform.rotation * Vector2.up) * this.nextVelocity, 10f * Time.fixedDeltaTime);
     }
 
     public void OnMouseDown() {

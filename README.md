@@ -38,6 +38,9 @@ non-starred = important<br>
     - [x] Spawning (basic) 
     - [x] Give Age property
         - [x] Update age every second
+    - [ ] Move some stuff from AI to AIAnt that dont belong in AI
+    - [ ] Save best AI weights
+        - [ ] Load AI weights
     - [ ] Decay dead bodies over time (**)
         - [ ] Maybe ai can decide to go carnivore and eat the dead bodies? (**)
     - [ ] Behaviour
@@ -55,9 +58,14 @@ non-starred = important<br>
                 - [x] Inputs should be what AI sees (multiple senses that register RGB?)
                 - [x] 1 Output, used to rotate the AI
                 - [ ] Ants don't really seem to improve movement (maybe the need more eyes, or longer sight?)
+                    - [ ] Get some graphs to show:
+>>                        - [ ] Fitness of the 2 winners from each population
+                    - [ ] Improve ...
 - UI
     - [ ] World info
         - [ ] Split generation info into its own class
+        - [x] Basic info
+        - [ ] BUG "Highest ant age" is not highest at all times.. (now shows highest from last population)
     - [ ] Add fitness values into a continues diagram?
     - [ ] Selected AI info
         - [x] AI info

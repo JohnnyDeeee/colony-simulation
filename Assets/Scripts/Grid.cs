@@ -17,6 +17,7 @@ public class Grid : MonoBehaviour {
     private float foodThreshold;
     private GameObject aiParent;
     private bool spawnLock;
+    private List<float> fitnessPerPopulation = new List<float>();
 
     public void Update() {
         // Update world age every second
@@ -29,21 +30,29 @@ public class Grid : MonoBehaviour {
         // Start creating new population
         if(World.age > 0 && (World.age % World.maxPopulationAge == 0) && !spawnLock) {
             spawnLock = true;
-            
+
             // Cleanup dead ants
-            for (int i = 0; i < World.ais.Count; i++) {
-                AIAnt ant = World.ais[i] as AIAnt;
+            List<AI> copyAis = new List<AI>(World.ais);
+            foreach (AIAnt ant in copyAis){ // Loop over copy
                 if(!ant.dead)
                     continue;
 
-                World.ais.Remove(ant);
+                World.ais.Remove(ant); // Remove from original
                 GameObject.Destroy(ant.gameObject);
             }
 
             // Create new population
             List<AI> candidates = World.ais;
             AI[] parents = GeneticAlgorithm.GetParents(candidates);
-            this.CreatePopulation(30, parents);
+            this.CreatePopulation(World.nextPopulationAmount, parents);
+
+            // Save fitness from winners (parents)
+            foreach (AI parent in parents) {
+                this.fitnessPerPopulation.Add(parent.fitness);
+            }
+            string logString = "";
+            this.fitnessPerPopulation.ForEach((fitness) => logString += String.Format("{0}, ", fitness));
+            Debug.Log("Fitness winners (every 2 parents per population): " + logString);
             
             // DEBUG
             // winner.selectedColor = Color.green;

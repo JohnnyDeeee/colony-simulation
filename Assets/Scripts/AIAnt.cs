@@ -18,7 +18,6 @@ public class AIAnt : AI {
             this.network.GetInputLayerSize() + 1,
             this.network.GetHiddenLayerSize(),
             this.network.GetOutputLayerSize() + 1); // Add foodAmount as an input, add extra output for nextEatProbabillity
-        this.foodDepletionMultiplier = 1f;
         this.maxFoodAmount = 1.0f; // 100%
         this.foodAmount = this.maxFoodAmount;
         this.generation = World.generation;
@@ -34,6 +33,9 @@ public class AIAnt : AI {
             this.Die();
             return;
         }
+
+        // Set here because timeScale can change during runtime
+        this.foodDepletionMultiplier = Time.timeScale;
 
         // Add foodAmount as an input
         this.networkInput.Add(this.foodAmount);
