@@ -20,6 +20,7 @@ public class AIAnt : AI {
             this.network.GetOutputLayerSize() + 1); // Add foodAmount as an input, add extra output for nextEatProbabillity
         this.maxFoodAmount = 1.0f; // 100%
         this.foodAmount = this.maxFoodAmount;
+        this.foodDepletionMultiplier = 1.0f;
         this.generation = World.generation;
 
         this.GetComponent<Rigidbody2D>().rotation = Random.Range(-180, 180+1);
@@ -33,9 +34,6 @@ public class AIAnt : AI {
             this.Die();
             return;
         }
-
-        // Set here because timeScale can change during runtime
-        this.foodDepletionMultiplier = Time.timeScale;
 
         // Add foodAmount as an input
         this.networkInput.Add(this.foodAmount);
@@ -65,9 +63,12 @@ public class AIAnt : AI {
         this.GetComponent<SpriteRenderer>().color = this.color;
     }
 
-    public void LateUpdate() {
+    // Important to do this in fixedUpdate, because this needs to be called after every movement (base.fixedUpdate)
+    public new void FixedUpdate() {
         if(this.dead)
             return;
+
+        base.FixedUpdate();
 
         // Lose food depending on how much you have travelled in the last frame (and the multiplier)
         Rigidbody2D rigidBody = this.GetComponent<Rigidbody2D>();
