@@ -53,14 +53,15 @@ non-starred = important<br>
                     - The new generation gets added next to the existing generation
                     - Use ai's age as fitness
                 - [ ] Actually let 2 ants produce a baby (not just create a whole new population)
+            - [ ] Sight
+                - [x] Eye(s) register RGB
+                - [ ] Choose hits randomly? Now we just pick the first X ones (where X = this.eyeAmount)
+                - [ ] Make raycast for each eye ?
         - [x] Advanced (Neural nets) (*)
             - [x] Movement (*)
                 - [x] Inputs should be what AI sees (multiple senses that register RGB?)
                 - [x] 1 Output, used to rotate the AI
-                - [ ] Ants don't really seem to improve movement (maybe the need more eyes, or longer sight?)
-                    - [ ] Get some graphs to show:
->>                        - [ ] Fitness of the 2 winners from each population
-                    - [ ] Improve ...
+                - [ ] Ants don't really seem to improve ...
 - UI
     - [ ] World info
         - [ ] Split generation info into its own class

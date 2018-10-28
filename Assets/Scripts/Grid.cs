@@ -50,9 +50,17 @@ public class Grid : MonoBehaviour {
             foreach (AI parent in parents) {
                 this.fitnessPerPopulation.Add(parent.fitness);
             }
-            string logString = "";
-            this.fitnessPerPopulation.ForEach((fitness) => logString += String.Format("{0}, ", fitness));
-            Debug.Log("Fitness winners (every 2 parents per population): " + logString);
+            string logString1 = "Parents(1): ";
+            string logString2 = "Parents(2): ";
+            for (int i = 0; i < this.fitnessPerPopulation.Count; i++){
+                if(i % 2 == 0)
+                    logString2 += this.fitnessPerPopulation[i] + ",";
+                else
+                    logString1 += this.fitnessPerPopulation[i] + ",";
+            }
+            Debug.Log("Fitness winners (every 2 parents per population): ");
+            Debug.Log(logString1);
+            Debug.Log(logString2);
             
             // DEBUG
             // winner.selectedColor = Color.green;
@@ -127,7 +135,7 @@ public class Grid : MonoBehaviour {
         
         // Create AI
         this.aiParent = new GameObject("ai's"); 
-        this.CreatePopulation(100);
+        this.CreatePopulation(World.nextPopulationAmount);
     }
 
     private void CreatePopulation(int amount, AI[] parents = null) {

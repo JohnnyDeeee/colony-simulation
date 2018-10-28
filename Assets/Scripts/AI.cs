@@ -18,7 +18,8 @@ public class AI : SpriteObject {
     public float nextRotation { get; private set;}
     public Vector2 nextVelocity { get; private set;}
     public float maxSeeDistance { get; private set;}
-    public double[] vision { get; private set;}
+    public double[][] vision { get; private set;}
+    public int eyeAmount { get; private set;}
     public int age { get; private set;}
 
     public float fitness { get { return this.age; } private set { this.fitness = value; } }
@@ -31,47 +32,64 @@ public class AI : SpriteObject {
         this.movementMultiplier = 5f;
         this.maxSeeDistance = 10f;
 
-        int inputLayerSize = 3; // Vision in RGB (3)
+        this.eyeAmount = 2;
+
+        int inputLayerSize = 3 * this.eyeAmount; // Vision in RGB (3)
         int outputLayerSize = 2; // Rotation, velocity
         this.network = new NeuralNetwork(inputLayerSize, 3, outputLayerSize);
 
         this.nextVelocity = Vector2.zero;
         this.nextRotation = 0f;
 
-        this.vision = new double[3];
+        this.vision = new double[this.eyeAmount][];
+        for (int i = 0; i < this.vision.Length; i++){
+            this.vision[i] = new double[3];
+        }
 
         this.nextAgeUpdate = Mathf.CeilToInt(Time.time);
     }
 
     public void Update() {
-        this.vision = new double[3]{0, 0, 0}; // Reset the vision (done at beginning so that UIAIInfo can access it)
+        for (int i = 0; i < this.vision.Length; i++){
+            this.vision[i] = new double[3]{0, 0, 0}; // Reset the vision (done at beginning so that UIAIInfo can access it)
+        }
 
+        // TODO: Make raycast for each eye ?
+        
         // Cast rays (the "eyes" part of the AI)
-        RaycastHit2D[] hits = Physics2D.RaycastAll(this.transform.position, this.transform.up, this.maxSeeDistance);
-        Debug.DrawRay(this.transform.position, this.transform.up * this.maxSeeDistance, Color.red, 0);
-        if(hits.Length > 0) {
-            foreach(RaycastHit2D hit in hits) {
-                Collider2D collider = hit.collider;
+        RaycastHit2D[] hits = Physics2D.RaycastAll(this.transform.localPosition, this.transform.up, this.maxSeeDistance);
+        hits = hits.Where(x => { // Exclude Ground Tile and myself form hits
+            return !x.collider.GetComponent<TileGround>() && x.collider.GetComponent<AI>() != this;
+        }).ToArray();
+        Debug.DrawRay(this.transform.localPosition, this.transform.up * this.maxSeeDistance, Color.red, 0);
 
-                // Ignore ground tiles and (if AI) itself
-                if(collider.GetComponent<TileGround>() || (collider.GetComponent<AI>() && collider.GetComponent<AI>() == this))
-                    continue;
-                
-                // Get RGB from colliding tile sprite
-                SpriteRenderer sr = hit.collider.GetComponent<SpriteRenderer>();
-                this.vision = new double[3] {sr.color.r, sr.color.g, sr.color.b};
+        // TODO: Choose hits randomly? Now we just pick the first X ones (where X = this.eyeAmount)
+        // So when we see 2 food_tiles we cannot see the AI that might be in front of us..
 
-                // Draw a ray towards what we are seeing
-                Debug.DrawRay(this.transform.position, collider.transform.position - this.transform.position, Color.blue, 0);
+        for(int i = 0; i < hits.Length; i++) {
+            if(i >= this.eyeAmount)
+                break;
 
-                break; // Break after first contact
-            }
+            RaycastHit2D hit = hits[i];
+            Collider2D collider = hit.collider;
+            
+            // Get RGB from colliding tile sprite
+            SpriteRenderer sr = hit.collider.GetComponent<SpriteRenderer>();
+            this.vision[i] = new double[3] {sr.color.r, sr.color.g, sr.color.b};
+
+            // Draw a ray towards what we are seeing
+            Debug.DrawRay(this.transform.localPosition, collider.transform.GetComponent<Renderer>().bounds.center - this.transform.localPosition, Color.blue, 0);
+
+            // break; // Break after first contact
         }
 
         Rigidbody2D rigidBody = this.GetComponent<Rigidbody2D>();
 
         // Let the "brain" do its thing with the given inputs
-        this.vision.ToList().ForEach(x => { this.networkInput.Add(x); }); // Add vision to the input array
+        for (int i = 0; i < this.vision.Length; i++){
+            this.vision[i].ToList().ForEach(x => { this.networkInput.Add(x); }); // Add vision to the input array
+        }
+        
         this.networkOutput = this.network.FeedForward(this.networkInput.ToArray()); // Brain calculating
         float rotation = (float)this.networkOutput[0] * this.rotationMultiplier;
         float velocity = (float)this.networkOutput[1] * this.movementMultiplier;

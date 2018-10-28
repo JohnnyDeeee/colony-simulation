@@ -31,9 +31,9 @@ public class UIAIInfo : UI {
         textLines.Add("next rotation: " + ai.nextRotation);
         textLines.Add("next velocity: " + ai.nextVelocity);
         textLines.Add("max see distance: " + ai.maxSeeDistance);
-        textLines.Add("vision: ");
-        this.visonImage.gameObject.SetActive(true);
-        this.visonImage.color = new Color((float)ai.vision[0], (float)ai.vision[1], (float)ai.vision[2]);
+        // textLines.Add("vision: ");
+        // this.visonImage.gameObject.SetActive(true);
+        // this.visonImage.color = new Color((float)ai.vision[0], (float)ai.vision[1], (float)ai.vision[2]);
         textLines.Add("age: " + ai.age);
         // AIAnt info
         AIAnt ant = ai as AIAnt;
