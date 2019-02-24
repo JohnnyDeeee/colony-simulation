@@ -1,3 +1,5 @@
+# Rebuilding this project here: https://github.com/JohnnyDeeee/Improved-Colony-Simulation
+
 # colony-simulation
 Colony simulation using Neural Nets and Genetic Algorithms
 
